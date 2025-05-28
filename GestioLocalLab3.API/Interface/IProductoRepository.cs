@@ -1,8 +1,9 @@
 ﻿using GestioLocalLab3.API.Models;
+using System.Collections.Generic;
 
 namespace GestioLocalLab3.API.Interface
 {
-    public class IProductoRepository
+    public interface IProductoRepository
     {
         List<Producto> ObtenerTodos();
         Producto? ObtenerPorId(int id);
