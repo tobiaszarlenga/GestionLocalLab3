@@ -2,7 +2,7 @@
 
 namespace GestioLocalLab3.API.Interface
 {
-    public class IProductoRepository
+    public interface IProductoRepository
     {
         List<Producto> ObtenerTodos();
         Producto? ObtenerPorId(int id);
