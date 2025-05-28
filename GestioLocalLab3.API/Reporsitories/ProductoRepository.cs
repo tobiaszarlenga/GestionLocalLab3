@@ -4,7 +4,9 @@ using GestioLocalLab3.API.Models;
 namespace GestionLocalLab3.API.Repositories
 {
     public class ProductoRepository : IProductoRepository
+
     {
+
         private readonly List<Producto> _productos = new();
 
         public List<Producto> ObtenerTodos()
@@ -43,5 +45,8 @@ namespace GestionLocalLab3.API.Repositories
                 _productos.Remove(producto);
             }
         }
+        private readonly IProductoRepository _productoRepo;
+
+        
     }
 }
