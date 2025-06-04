@@ -41,11 +41,17 @@
             tabReporte = new TabPage();
             dgvProductos = new DataGridView();
             btnCargarProductos = new Button();
+            cbMes = new ComboBox();
+            nudDia = new NumericUpDown();
+            btnConsultarReporte = new Button();
+            lblResultado = new Label();
             tabControl.SuspendLayout();
             tabVenta.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudCantidad).BeginInit();
             tabStock.SuspendLayout();
+            tabReporte.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvProductos).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)nudDia).BeginInit();
             SuspendLayout();
             // 
             // tabControl
@@ -149,6 +155,10 @@
             // 
             // tabReporte
             // 
+            tabReporte.Controls.Add(lblResultado);
+            tabReporte.Controls.Add(btnConsultarReporte);
+            tabReporte.Controls.Add(nudDia);
+            tabReporte.Controls.Add(cbMes);
             tabReporte.Location = new Point(4, 24);
             tabReporte.Name = "tabReporte";
             tabReporte.Padding = new Padding(3);
@@ -174,6 +184,39 @@
             btnCargarProductos.Text = "Cargar Productos";
             btnCargarProductos.UseVisualStyleBackColor = true;
             // 
+            // cbMes
+            // 
+            cbMes.FormattingEnabled = true;
+            cbMes.Location = new Point(61, 89);
+            cbMes.Name = "cbMes";
+            cbMes.Size = new Size(121, 23);
+            cbMes.TabIndex = 1;
+            // 
+            // nudDia
+            // 
+            nudDia.Location = new Point(61, 142);
+            nudDia.Name = "nudDia";
+            nudDia.Size = new Size(120, 23);
+            nudDia.TabIndex = 2;
+            // 
+            // btnConsultarReporte
+            // 
+            btnConsultarReporte.Location = new Point(83, 272);
+            btnConsultarReporte.Name = "btnConsultarReporte";
+            btnConsultarReporte.Size = new Size(75, 23);
+            btnConsultarReporte.TabIndex = 3;
+            btnConsultarReporte.Text = "Consultar";
+            btnConsultarReporte.UseVisualStyleBackColor = true;
+            // 
+            // lblResultado
+            // 
+            lblResultado.AutoSize = true;
+            lblResultado.Location = new Point(103, 221);
+            lblResultado.Name = "lblResultado";
+            lblResultado.Size = new Size(10, 15);
+            lblResultado.TabIndex = 4;
+            lblResultado.Text = ".";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -187,7 +230,10 @@
             tabVenta.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)nudCantidad).EndInit();
             tabStock.ResumeLayout(false);
+            tabReporte.ResumeLayout(false);
+            tabReporte.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvProductos).EndInit();
+            ((System.ComponentModel.ISupportInitialize)nudDia).EndInit();
             ResumeLayout(false);
         }
 
@@ -206,5 +252,9 @@
         private Button btnRegistarVenta;
         private Button btnCargarProductos;
         private DataGridView dgvProductos;
+        private Label lblResultado;
+        private Button btnConsultarReporte;
+        private NumericUpDown nudDia;
+        private ComboBox cbMes;
     }
 }
