@@ -28,71 +28,156 @@
         /// </summary>
         private void InitializeComponent()
         {
-            tabControl1 = new TabControl();
-            tabPage1 = new TabPage();
-            tabPage2 = new TabPage();
-            tabPage3 = new TabPage();
-            tabControl1.SuspendLayout();
+            tabControl = new TabControl();
+            tabVenta = new TabPage();
+            tabStock = new TabPage();
+            tabReporte = new TabPage();
+            cbProductos = new ComboBox();
+            nudCantidad = new NumericUpDown();
+            btnRegistarVenta = new Button();
+            cbMetodoPago = new ComboBox();
+            label1 = new Label();
+            label2 = new Label();
+            label3 = new Label();
+            tabControl.SuspendLayout();
+            tabVenta.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)nudCantidad).BeginInit();
             SuspendLayout();
             // 
-            // tabControl1
+            // tabControl
             // 
-            tabControl1.Controls.Add(tabPage1);
-            tabControl1.Controls.Add(tabPage2);
-            tabControl1.Controls.Add(tabPage3);
-            tabControl1.Location = new Point(1, -4);
-            tabControl1.Name = "tabControl1";
-            tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(803, 454);
-            tabControl1.TabIndex = 0;
+            tabControl.Controls.Add(tabVenta);
+            tabControl.Controls.Add(tabStock);
+            tabControl.Controls.Add(tabReporte);
+            tabControl.Location = new Point(4, 4);
+            tabControl.Name = "tabControl";
+            tabControl.SelectedIndex = 0;
+            tabControl.Size = new Size(797, 446);
+            tabControl.TabIndex = 0;
             // 
-            // tabPage1
+            // tabVenta
             // 
-            tabPage1.Location = new Point(4, 24);
-            tabPage1.Name = "tabPage1";
-            tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(795, 426);
-            tabPage1.TabIndex = 0;
-            tabPage1.Text = "tabPage1";
-            tabPage1.UseVisualStyleBackColor = true;
+            tabVenta.Controls.Add(label3);
+            tabVenta.Controls.Add(label2);
+            tabVenta.Controls.Add(label1);
+            tabVenta.Controls.Add(cbMetodoPago);
+            tabVenta.Controls.Add(btnRegistarVenta);
+            tabVenta.Controls.Add(nudCantidad);
+            tabVenta.Controls.Add(cbProductos);
+            tabVenta.Location = new Point(4, 24);
+            tabVenta.Name = "tabVenta";
+            tabVenta.Padding = new Padding(3);
+            tabVenta.Size = new Size(789, 418);
+            tabVenta.TabIndex = 0;
+            tabVenta.Text = "Venta";
+            tabVenta.UseVisualStyleBackColor = true;
             // 
-            // tabPage2
+            // tabStock
             // 
-            tabPage2.Location = new Point(4, 24);
-            tabPage2.Name = "tabPage2";
-            tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(795, 426);
-            tabPage2.TabIndex = 1;
-            tabPage2.Text = "tabPage2";
-            tabPage2.UseVisualStyleBackColor = true;
+            tabStock.Location = new Point(4, 24);
+            tabStock.Name = "tabStock";
+            tabStock.Padding = new Padding(3);
+            tabStock.Size = new Size(789, 418);
+            tabStock.TabIndex = 1;
+            tabStock.Text = "Stock";
+            tabStock.UseVisualStyleBackColor = true;
             // 
-            // tabPage3
+            // tabReporte
             // 
-            tabPage3.Location = new Point(4, 24);
-            tabPage3.Name = "tabPage3";
-            tabPage3.Padding = new Padding(3);
-            tabPage3.Size = new Size(795, 426);
-            tabPage3.TabIndex = 2;
-            tabPage3.Text = "tabPage3";
-            tabPage3.UseVisualStyleBackColor = true;
+            tabReporte.Location = new Point(4, 24);
+            tabReporte.Name = "tabReporte";
+            tabReporte.Padding = new Padding(3);
+            tabReporte.Size = new Size(789, 418);
+            tabReporte.TabIndex = 2;
+            tabReporte.Text = "Reporte";
+            tabReporte.UseVisualStyleBackColor = true;
+            // 
+            // cbProductos
+            // 
+            cbProductos.FormattingEnabled = true;
+            cbProductos.Location = new Point(108, 53);
+            cbProductos.Name = "cbProductos";
+            cbProductos.Size = new Size(121, 23);
+            cbProductos.TabIndex = 0;
+            // 
+            // nudCantidad
+            // 
+            nudCantidad.Location = new Point(108, 93);
+            nudCantidad.Name = "nudCantidad";
+            nudCantidad.Size = new Size(120, 23);
+            nudCantidad.TabIndex = 1;
+            // 
+            // btnRegistarVenta
+            // 
+            btnRegistarVenta.Location = new Point(121, 192);
+            btnRegistarVenta.Name = "btnRegistarVenta";
+            btnRegistarVenta.Size = new Size(107, 23);
+            btnRegistarVenta.TabIndex = 2;
+            btnRegistarVenta.Text = "Registar venta";
+            btnRegistarVenta.UseVisualStyleBackColor = true;
+            // 
+            // cbMetodoPago
+            // 
+            cbMetodoPago.FormattingEnabled = true;
+            cbMetodoPago.Location = new Point(108, 138);
+            cbMetodoPago.Name = "cbMetodoPago";
+            cbMetodoPago.Size = new Size(121, 23);
+            cbMetodoPago.TabIndex = 3;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(43, 56);
+            label1.Name = "label1";
+            label1.Size = new Size(59, 15);
+            label1.TabIndex = 4;
+            label1.Text = "Producto:";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(44, 95);
+            label2.Name = "label2";
+            label2.Size = new Size(58, 15);
+            label2.TabIndex = 4;
+            label2.Text = "Cantidad:";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(50, 141);
+            label3.Name = "label3";
+            label3.Size = new Size(52, 15);
+            label3.TabIndex = 4;
+            label3.Text = "Metodo:";
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(tabControl1);
+            Controls.Add(tabControl);
             Name = "Form1";
             Text = "Form1";
-            tabControl1.ResumeLayout(false);
+            tabControl.ResumeLayout(false);
+            tabVenta.ResumeLayout(false);
+            tabVenta.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)nudCantidad).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
-        private TabControl tabControl1;
-        private TabPage tabPage1;
-        private TabPage tabPage2;
-        private TabPage tabPage3;
+        private TabControl tabControl;
+        private TabPage tabVenta;
+        private TabPage tabStock;
+        private TabPage tabReporte;
+        private NumericUpDown nudCantidad;
+        private ComboBox cbProductos;
+        private Label label3;
+        private Label label2;
+        private Label label1;
+        private ComboBox cbMetodoPago;
+        private Button btnRegistarVenta;
     }
 }
