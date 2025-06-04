@@ -1,6 +1,45 @@
-﻿namespace GestioLocalLab3.API.Controllers
+﻿using GestioLocalLab3.API.Interface;
+
+using Microsoft.AspNetCore.Mvc;
+
+namespace GestionLocalLab3.API.Controllers
 {
-    public class ReporteController
+    [ApiController]
+    [Route("api/[controller]")]
+    public class ReporteController : ControllerBase
     {
+        private readonly IVentaRepository _ventaRepo;
+
+        public ReporteController(IVentaRepository ventaRepo)
+        {
+            _ventaRepo = ventaRepo;
+        }
+
+        
+        [HttpGet("Mensual")]
+        public IActionResult GetVentasDelMes(int mes, int dia)
+        {
+            var ventas = _ventaRepo.ObtenerTodas()
+                .Where(v => v.Fecha.Month == mes && v.Fecha.Day == dia)
+                .ToList();
+
+            var totalEfectivo = ventas
+                .Where(v => v.MetodoPago.ToLower() == "efectivo")
+                .Sum(v => v.MontoTotal);
+
+            var totalTransferencia = ventas
+                .Where(v => v.MetodoPago.ToLower() == "transferencia")
+                .Sum(v => v.MontoTotal);
+
+            var resumen = new
+            {
+                CantidadVentas = ventas.Count,
+                TotalGeneral = ventas.Sum(v => v.MontoTotal),
+                TotalEfectivo = totalEfectivo,
+                TotalTransferencia = totalTransferencia
+            };
+
+            return Ok(resumen);
+        }
     }
 }
