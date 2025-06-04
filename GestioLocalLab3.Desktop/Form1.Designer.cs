@@ -166,6 +166,7 @@
             tabReporte.TabIndex = 2;
             tabReporte.Text = "Reporte";
             tabReporte.UseVisualStyleBackColor = true;
+            tabReporte.Click += tabReporte_Click;
             // 
             // dgvProductos
             // 
@@ -191,6 +192,7 @@
             cbMes.Name = "cbMes";
             cbMes.Size = new Size(121, 23);
             cbMes.TabIndex = 1;
+            cbMes.SelectedIndexChanged += cbMes_SelectedIndexChanged;
             // 
             // nudDia
             // 
@@ -225,6 +227,7 @@
             Controls.Add(tabControl);
             Name = "Form1";
             Text = "Form1";
+            Load += Form1_Load;
             tabControl.ResumeLayout(false);
             tabVenta.ResumeLayout(false);
             tabVenta.PerformLayout();
