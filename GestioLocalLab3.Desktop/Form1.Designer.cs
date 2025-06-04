@@ -30,18 +30,22 @@
         {
             tabControl = new TabControl();
             tabVenta = new TabPage();
+            label3 = new Label();
+            label2 = new Label();
+            label1 = new Label();
+            cbMetodoPago = new ComboBox();
+            btnRegistarVenta = new Button();
+            nudCantidad = new NumericUpDown();
+            cbProductos = new ComboBox();
             tabStock = new TabPage();
             tabReporte = new TabPage();
-            cbProductos = new ComboBox();
-            nudCantidad = new NumericUpDown();
-            btnRegistarVenta = new Button();
-            cbMetodoPago = new ComboBox();
-            label1 = new Label();
-            label2 = new Label();
-            label3 = new Label();
+            dgvProductos = new DataGridView();
+            btnCargarProductos = new Button();
             tabControl.SuspendLayout();
             tabVenta.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudCantidad).BeginInit();
+            tabStock.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvProductos).BeginInit();
             SuspendLayout();
             // 
             // tabControl
@@ -72,8 +76,69 @@
             tabVenta.Text = "Venta";
             tabVenta.UseVisualStyleBackColor = true;
             // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(50, 141);
+            label3.Name = "label3";
+            label3.Size = new Size(52, 15);
+            label3.TabIndex = 4;
+            label3.Text = "Metodo:";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(44, 95);
+            label2.Name = "label2";
+            label2.Size = new Size(58, 15);
+            label2.TabIndex = 4;
+            label2.Text = "Cantidad:";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(43, 56);
+            label1.Name = "label1";
+            label1.Size = new Size(59, 15);
+            label1.TabIndex = 4;
+            label1.Text = "Producto:";
+            // 
+            // cbMetodoPago
+            // 
+            cbMetodoPago.FormattingEnabled = true;
+            cbMetodoPago.Location = new Point(108, 138);
+            cbMetodoPago.Name = "cbMetodoPago";
+            cbMetodoPago.Size = new Size(121, 23);
+            cbMetodoPago.TabIndex = 3;
+            // 
+            // btnRegistarVenta
+            // 
+            btnRegistarVenta.Location = new Point(121, 192);
+            btnRegistarVenta.Name = "btnRegistarVenta";
+            btnRegistarVenta.Size = new Size(107, 23);
+            btnRegistarVenta.TabIndex = 2;
+            btnRegistarVenta.Text = "Registar venta";
+            btnRegistarVenta.UseVisualStyleBackColor = true;
+            // 
+            // nudCantidad
+            // 
+            nudCantidad.Location = new Point(108, 93);
+            nudCantidad.Name = "nudCantidad";
+            nudCantidad.Size = new Size(120, 23);
+            nudCantidad.TabIndex = 1;
+            // 
+            // cbProductos
+            // 
+            cbProductos.FormattingEnabled = true;
+            cbProductos.Location = new Point(108, 53);
+            cbProductos.Name = "cbProductos";
+            cbProductos.Size = new Size(121, 23);
+            cbProductos.TabIndex = 0;
+            // 
             // tabStock
             // 
+            tabStock.Controls.Add(btnCargarProductos);
+            tabStock.Controls.Add(dgvProductos);
             tabStock.Location = new Point(4, 24);
             tabStock.Name = "tabStock";
             tabStock.Padding = new Padding(3);
@@ -92,64 +157,22 @@
             tabReporte.Text = "Reporte";
             tabReporte.UseVisualStyleBackColor = true;
             // 
-            // cbProductos
+            // dgvProductos
             // 
-            cbProductos.FormattingEnabled = true;
-            cbProductos.Location = new Point(108, 53);
-            cbProductos.Name = "cbProductos";
-            cbProductos.Size = new Size(121, 23);
-            cbProductos.TabIndex = 0;
+            dgvProductos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvProductos.Location = new Point(329, 18);
+            dgvProductos.Name = "dgvProductos";
+            dgvProductos.Size = new Size(441, 317);
+            dgvProductos.TabIndex = 0;
             // 
-            // nudCantidad
+            // btnCargarProductos
             // 
-            nudCantidad.Location = new Point(108, 93);
-            nudCantidad.Name = "nudCantidad";
-            nudCantidad.Size = new Size(120, 23);
-            nudCantidad.TabIndex = 1;
-            // 
-            // btnRegistarVenta
-            // 
-            btnRegistarVenta.Location = new Point(121, 192);
-            btnRegistarVenta.Name = "btnRegistarVenta";
-            btnRegistarVenta.Size = new Size(107, 23);
-            btnRegistarVenta.TabIndex = 2;
-            btnRegistarVenta.Text = "Registar venta";
-            btnRegistarVenta.UseVisualStyleBackColor = true;
-            // 
-            // cbMetodoPago
-            // 
-            cbMetodoPago.FormattingEnabled = true;
-            cbMetodoPago.Location = new Point(108, 138);
-            cbMetodoPago.Name = "cbMetodoPago";
-            cbMetodoPago.Size = new Size(121, 23);
-            cbMetodoPago.TabIndex = 3;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(43, 56);
-            label1.Name = "label1";
-            label1.Size = new Size(59, 15);
-            label1.TabIndex = 4;
-            label1.Text = "Producto:";
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(44, 95);
-            label2.Name = "label2";
-            label2.Size = new Size(58, 15);
-            label2.TabIndex = 4;
-            label2.Text = "Cantidad:";
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(50, 141);
-            label3.Name = "label3";
-            label3.Size = new Size(52, 15);
-            label3.TabIndex = 4;
-            label3.Text = "Metodo:";
+            btnCargarProductos.Location = new Point(34, 50);
+            btnCargarProductos.Name = "btnCargarProductos";
+            btnCargarProductos.Size = new Size(121, 40);
+            btnCargarProductos.TabIndex = 1;
+            btnCargarProductos.Text = "Cargar Productos";
+            btnCargarProductos.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -163,6 +186,8 @@
             tabVenta.ResumeLayout(false);
             tabVenta.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)nudCantidad).EndInit();
+            tabStock.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dgvProductos).EndInit();
             ResumeLayout(false);
         }
 
@@ -179,5 +204,7 @@
         private Label label1;
         private ComboBox cbMetodoPago;
         private Button btnRegistarVenta;
+        private Button btnCargarProductos;
+        private DataGridView dgvProductos;
     }
 }
