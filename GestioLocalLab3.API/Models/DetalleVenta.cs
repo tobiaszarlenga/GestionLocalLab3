@@ -1,4 +1,6 @@
-﻿namespace GestioLocalLab3.API.Models
+﻿using Microsoft.AspNetCore.Antiforgery;
+
+namespace GestioLocalLab3.API.Models
 {
     public class DetalleVenta
     {
