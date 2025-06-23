@@ -15,9 +15,9 @@ namespace GestionLocalLab3.API.Controllers
             _ventaRepo = ventaRepo;
         }
 
-        
-        [HttpGet("Mensual")]
-        public IActionResult GetVentasDelMes(int mes, int dia)
+
+        [HttpGet("DelDia")]
+        public IActionResult GetVentasDelDia(int mes, int dia)
         {
             var ventas = _ventaRepo.ObtenerTodas()
                 .Where(v => v.Fecha.Month == mes && v.Fecha.Day == dia)
@@ -41,5 +41,33 @@ namespace GestionLocalLab3.API.Controllers
 
             return Ok(resumen);
         }
+
+        [HttpGet("Mensual")]
+        public IActionResult GetVentasDelMes(int mes)
+        {
+            var ventas = _ventaRepo.ObtenerTodas()
+                .Where(v => v.Fecha.Month == mes)
+                .ToList();
+
+            var totalEfectivo = ventas
+                .Where(v => v.MetodoPago.ToLower() == "efectivo")
+                .Sum(v => v.MontoTotal);
+
+            var totalTransferencia = ventas
+                .Where(v => v.MetodoPago.ToLower() == "transferencia")
+                .Sum(v => v.MontoTotal);
+
+            var resumen = new
+            {
+                CantidadVentas = ventas.Count,
+                TotalGeneral = ventas.Sum(v => v.MontoTotal),
+                TotalEfectivo = totalEfectivo,
+                TotalTransferencia = totalTransferencia
+            };
+
+            return Ok(resumen);
+        }
+
+
     }
 }
