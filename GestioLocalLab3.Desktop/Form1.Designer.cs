@@ -38,19 +38,19 @@
             nudCantidad = new NumericUpDown();
             cbProductos = new ComboBox();
             tabStock = new TabPage();
-            tabReporte = new TabPage();
-            dgvProductos = new DataGridView();
             btnCargarProductos = new Button();
-            cbMes = new ComboBox();
-            nudDia = new NumericUpDown();
-            btnConsultarReporte = new Button();
+            dgvProductos = new DataGridView();
+            tabReporte = new TabPage();
             lblResultado = new Label();
+            btnConsultarReporte = new Button();
+            nudDia = new NumericUpDown();
+            cbMes = new ComboBox();
             tabControl.SuspendLayout();
             tabVenta.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudCantidad).BeginInit();
             tabStock.SuspendLayout();
-            tabReporte.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvProductos).BeginInit();
+            tabReporte.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudDia).BeginInit();
             SuspendLayout();
             // 
@@ -153,6 +153,24 @@
             tabStock.Text = "Stock";
             tabStock.UseVisualStyleBackColor = true;
             // 
+            // btnCargarProductos
+            // 
+            btnCargarProductos.Location = new Point(34, 50);
+            btnCargarProductos.Name = "btnCargarProductos";
+            btnCargarProductos.Size = new Size(121, 40);
+            btnCargarProductos.TabIndex = 1;
+            btnCargarProductos.Text = "Cargar Productos";
+            btnCargarProductos.UseVisualStyleBackColor = true;
+            btnCargarProductos.Click += btnCargarProductos_Click;
+            // 
+            // dgvProductos
+            // 
+            dgvProductos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvProductos.Location = new Point(329, 18);
+            dgvProductos.Name = "dgvProductos";
+            dgvProductos.Size = new Size(441, 317);
+            dgvProductos.TabIndex = 0;
+            // 
             // tabReporte
             // 
             tabReporte.Controls.Add(lblResultado);
@@ -168,22 +186,31 @@
             tabReporte.UseVisualStyleBackColor = true;
             tabReporte.Click += tabReporte_Click;
             // 
-            // dgvProductos
+            // lblResultado
             // 
-            dgvProductos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvProductos.Location = new Point(329, 18);
-            dgvProductos.Name = "dgvProductos";
-            dgvProductos.Size = new Size(441, 317);
-            dgvProductos.TabIndex = 0;
+            lblResultado.AutoSize = true;
+            lblResultado.Location = new Point(329, 119);
+            lblResultado.Name = "lblResultado";
+            lblResultado.Size = new Size(10, 15);
+            lblResultado.TabIndex = 4;
+            lblResultado.Text = ".";
+            lblResultado.Click += lblResultado_Click;
             // 
-            // btnCargarProductos
+            // btnConsultarReporte
             // 
-            btnCargarProductos.Location = new Point(34, 50);
-            btnCargarProductos.Name = "btnCargarProductos";
-            btnCargarProductos.Size = new Size(121, 40);
-            btnCargarProductos.TabIndex = 1;
-            btnCargarProductos.Text = "Cargar Productos";
-            btnCargarProductos.UseVisualStyleBackColor = true;
+            btnConsultarReporte.Location = new Point(61, 200);
+            btnConsultarReporte.Name = "btnConsultarReporte";
+            btnConsultarReporte.Size = new Size(75, 23);
+            btnConsultarReporte.TabIndex = 3;
+            btnConsultarReporte.Text = "Consultar";
+            btnConsultarReporte.UseVisualStyleBackColor = true;
+            // 
+            // nudDia
+            // 
+            nudDia.Location = new Point(61, 142);
+            nudDia.Name = "nudDia";
+            nudDia.Size = new Size(120, 23);
+            nudDia.TabIndex = 2;
             // 
             // cbMes
             // 
@@ -193,31 +220,6 @@
             cbMes.Size = new Size(121, 23);
             cbMes.TabIndex = 1;
             cbMes.SelectedIndexChanged += cbMes_SelectedIndexChanged;
-            // 
-            // nudDia
-            // 
-            nudDia.Location = new Point(61, 142);
-            nudDia.Name = "nudDia";
-            nudDia.Size = new Size(120, 23);
-            nudDia.TabIndex = 2;
-            // 
-            // btnConsultarReporte
-            // 
-            btnConsultarReporte.Location = new Point(83, 272);
-            btnConsultarReporte.Name = "btnConsultarReporte";
-            btnConsultarReporte.Size = new Size(75, 23);
-            btnConsultarReporte.TabIndex = 3;
-            btnConsultarReporte.Text = "Consultar";
-            btnConsultarReporte.UseVisualStyleBackColor = true;
-            // 
-            // lblResultado
-            // 
-            lblResultado.AutoSize = true;
-            lblResultado.Location = new Point(103, 221);
-            lblResultado.Name = "lblResultado";
-            lblResultado.Size = new Size(10, 15);
-            lblResultado.TabIndex = 4;
-            lblResultado.Text = ".";
             // 
             // Form1
             // 
@@ -233,9 +235,9 @@
             tabVenta.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)nudCantidad).EndInit();
             tabStock.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dgvProductos).EndInit();
             tabReporte.ResumeLayout(false);
             tabReporte.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvProductos).EndInit();
             ((System.ComponentModel.ISupportInitialize)nudDia).EndInit();
             ResumeLayout(false);
         }

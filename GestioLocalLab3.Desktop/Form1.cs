@@ -27,5 +27,15 @@ namespace GestioLocalLab3.Desktop
 
             nudDia.Value = DateTime.Now.Day;
         }
+
+        private void btnCargarProductos_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblResultado_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
