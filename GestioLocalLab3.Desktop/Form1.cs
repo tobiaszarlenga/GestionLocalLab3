@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Json;
+﻿using System;
+using System.Net.Http.Json;
 using GestioLocalLab3.Desktop.Models;
 
 namespace GestioLocalLab3.Desktop
@@ -55,7 +56,8 @@ namespace GestioLocalLab3.Desktop
             dataGridViewCarrito.Columns.Clear();
             dataGridViewCarrito.Columns.Add("Producto", "Producto");
             dataGridViewCarrito.Columns.Add("Cantidad", "Cantidad");
-            dataGridViewCarrito.Columns.Add("PrecioUnitario", "Precio Unitario");        
+            dataGridViewCarrito.Columns.Add("PrecioUnitario", "Precio Unitario");
+            dataGridViewCarrito.Columns.Add("Talle", "Talle");
             dataGridViewCarrito.Columns.Add("Subtotal", "Subtotal");
             dataGridViewCarrito.Columns.Add("MetodoPago", "Método de Pago");
         }
@@ -96,11 +98,12 @@ namespace GestioLocalLab3.Desktop
 
             // Agregar a la grilla
             dataGridViewCarrito.Rows.Add(
-                productoSeleccionado.Nombre,
-                cantidad,
-                productoSeleccionado.Precio.ToString("C"),
-                (productoSeleccionado.Precio * cantidad).ToString("C"),
-                cbMetodoPago.SelectedItem?.ToString()
+               productoSeleccionado.Nombre,
+               cantidad,
+               productoSeleccionado.Precio.ToString("C"),
+                productoSeleccionado.Talle,
+               (productoSeleccionado.Precio * cantidad).ToString("C"),              
+               cbMetodoPago.SelectedItem?.ToString()
             );
 
             nudCantidad.Value = 1;
@@ -179,12 +182,13 @@ namespace GestioLocalLab3.Desktop
             dataGridViewStock.Columns.Clear();
             dataGridViewStock.Columns.Add("Id", "ID");
             dataGridViewStock.Columns.Add("Nombre", "Nombre");
+            dataGridViewStock.Columns.Add("Talle", "Talle");
             dataGridViewStock.Columns.Add("Precio", "Precio");
             dataGridViewStock.Columns.Add("Stock", "Stock");
 
             foreach (var p in productos)
             {
-                dataGridViewStock.Rows.Add(p.Id, p.Nombre, p.Precio.ToString("C"), p.StockActual);
+                dataGridViewStock.Rows.Add(p.Id, p.Nombre, p.Talle, p.Precio.ToString("C"), p.StockActual);
             }
         }
 
@@ -221,6 +225,7 @@ namespace GestioLocalLab3.Desktop
             var fila = dataGridViewStock.Rows[e.RowIndex];
             idProductoSeleccionado = Convert.ToInt32(fila.Cells["Id"].Value);
             txtNombreProducto.Text = fila.Cells["Nombre"].Value?.ToString();
+            txtTalleProducto.Text = fila.Cells["Talle"].Value?.ToString();
             nudPrecioProducto.Value = decimal.Parse(fila.Cells["Precio"].Value?.ToString().Replace("$", ""));
             nudStockProducto.Value = Convert.ToInt32(fila.Cells["Stock"].Value);
         }
@@ -298,7 +303,8 @@ namespace GestioLocalLab3.Desktop
             string nombre = txtNombreProducto.Text.Trim();
             decimal precio = nudPrecioProducto.Value;
             int stock = (int)nudStockProducto.Value;
-
+            string talle = txtTalleProducto.Text; 
+                
             if (string.IsNullOrWhiteSpace(nombre) || precio <= 0 || stock < 0)
             {
                 MessageBox.Show("Completá correctamente todos los campos.");
@@ -307,7 +313,9 @@ namespace GestioLocalLab3.Desktop
 
             var nuevoProducto = new Producto
             {
+              
                 Nombre = nombre,
+                Talle = talle,
                 Precio = precio,
                 StockActual = stock
             };

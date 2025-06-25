@@ -42,6 +42,8 @@
             nudCantidad = new NumericUpDown();
             cbProductos = new ComboBox();
             tabStock = new TabPage();
+            label7 = new Label();
+            txtTalleProducto = new TextBox();
             btnEditarProducto = new Button();
             btnEliminarProducto = new Button();
             label6 = new Label();
@@ -127,16 +129,16 @@
             // dataGridViewCarrito
             // 
             dataGridViewCarrito.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCarrito.Location = new Point(301, 15);
+            dataGridViewCarrito.Location = new Point(234, 15);
             dataGridViewCarrito.Name = "dataGridViewCarrito";
-            dataGridViewCarrito.Size = new Size(453, 274);
+            dataGridViewCarrito.Size = new Size(520, 209);
             dataGridViewCarrito.TabIndex = 5;
             dataGridViewCarrito.CellContentClick += dataGridViewCarrito_CellContentClick;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(50, 141);
+            label3.Location = new Point(19, 138);
             label3.Name = "label3";
             label3.Size = new Size(52, 15);
             label3.TabIndex = 4;
@@ -145,7 +147,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(44, 95);
+            label2.Location = new Point(19, 83);
             label2.Name = "label2";
             label2.Size = new Size(58, 15);
             label2.TabIndex = 4;
@@ -154,7 +156,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(43, 56);
+            label1.Location = new Point(19, 53);
             label1.Name = "label1";
             label1.Size = new Size(59, 15);
             label1.TabIndex = 4;
@@ -163,7 +165,7 @@
             // cbMetodoPago
             // 
             cbMetodoPago.FormattingEnabled = true;
-            cbMetodoPago.Location = new Point(108, 138);
+            cbMetodoPago.Location = new Point(77, 135);
             cbMetodoPago.Name = "cbMetodoPago";
             cbMetodoPago.Size = new Size(121, 23);
             cbMetodoPago.TabIndex = 3;
@@ -180,7 +182,7 @@
             // 
             // nudCantidad
             // 
-            nudCantidad.Location = new Point(108, 93);
+            nudCantidad.Location = new Point(83, 83);
             nudCantidad.Name = "nudCantidad";
             nudCantidad.Size = new Size(120, 23);
             nudCantidad.TabIndex = 1;
@@ -188,13 +190,15 @@
             // cbProductos
             // 
             cbProductos.FormattingEnabled = true;
-            cbProductos.Location = new Point(108, 53);
+            cbProductos.Location = new Point(84, 53);
             cbProductos.Name = "cbProductos";
             cbProductos.Size = new Size(121, 23);
             cbProductos.TabIndex = 0;
             // 
             // tabStock
             // 
+            tabStock.Controls.Add(label7);
+            tabStock.Controls.Add(txtTalleProducto);
             tabStock.Controls.Add(btnEditarProducto);
             tabStock.Controls.Add(btnEliminarProducto);
             tabStock.Controls.Add(label6);
@@ -213,6 +217,22 @@
             tabStock.TabIndex = 1;
             tabStock.Text = "Stock";
             tabStock.UseVisualStyleBackColor = true;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(48, 109);
+            label7.Name = "label7";
+            label7.Size = new Size(30, 15);
+            label7.TabIndex = 12;
+            label7.Text = "Talle";
+            // 
+            // txtTalleProducto
+            // 
+            txtTalleProducto.Location = new Point(90, 106);
+            txtTalleProducto.Name = "txtTalleProducto";
+            txtTalleProducto.Size = new Size(100, 23);
+            txtTalleProducto.TabIndex = 11;
             // 
             // btnEditarProducto
             // 
@@ -237,7 +257,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(47, 143);
+            label6.Location = new Point(47, 190);
             label6.Name = "label6";
             label6.Size = new Size(36, 15);
             label6.TabIndex = 8;
@@ -246,7 +266,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(45, 106);
+            label5.Location = new Point(46, 143);
             label5.Name = "label5";
             label5.Size = new Size(40, 15);
             label5.TabIndex = 7;
@@ -255,7 +275,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(35, 74);
+            label4.Location = new Point(36, 73);
             label4.Name = "label4";
             label4.Size = new Size(51, 15);
             label4.TabIndex = 6;
@@ -273,14 +293,14 @@
             // 
             // nudStockProducto
             // 
-            nudStockProducto.Location = new Point(89, 141);
+            nudStockProducto.Location = new Point(89, 182);
             nudStockProducto.Name = "nudStockProducto";
             nudStockProducto.Size = new Size(61, 23);
             nudStockProducto.TabIndex = 4;
             // 
             // nudPrecioProducto
             // 
-            nudPrecioProducto.Location = new Point(89, 104);
+            nudPrecioProducto.Location = new Point(89, 143);
             nudPrecioProducto.Name = "nudPrecioProducto";
             nudPrecioProducto.Size = new Size(61, 23);
             nudPrecioProducto.TabIndex = 3;
@@ -306,9 +326,9 @@
             // dataGridViewStock
             // 
             dataGridViewStock.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewStock.Location = new Point(273, 48);
+            dataGridViewStock.Location = new Point(267, 48);
             dataGridViewStock.Name = "dataGridViewStock";
-            dataGridViewStock.Size = new Size(499, 229);
+            dataGridViewStock.Size = new Size(505, 229);
             dataGridViewStock.TabIndex = 0;
             dataGridViewStock.CellContentClick += dataGridViewStock_CellContentClick;
             // 
@@ -436,5 +456,7 @@
         private Button btnCargarProducto;
         private Label lblTotalMes;
         private ContextMenuStrip contextMenuStrip1;
+        private Label label7;
+        private TextBox txtTalleProducto;
     }
 }
