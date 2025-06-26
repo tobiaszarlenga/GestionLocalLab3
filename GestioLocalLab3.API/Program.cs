@@ -2,6 +2,7 @@ using GestioLocalLab3.API.Interface;
 using GestionLocalLab3.API.Repositories;
 using GestioLocalLab3.API.Models;        
 using GestioLocalLab3.API.Repositories;
+using GestionLocalLab3.API.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
