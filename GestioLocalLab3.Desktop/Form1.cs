@@ -18,11 +18,7 @@ namespace GestioLocalLab3.Desktop
 
         private async void Form1_Load(object sender, EventArgs e)
         {
-            cbMes.Items.AddRange(Enumerable.Range(1, 12).Select(i => i.ToString()).ToArray());
-            cbMes.SelectedIndex = DateTime.Now.Month - 1;
-            nudDia.Value = DateTime.Now.Day;
-            nudDia.Minimum = 1;
-            nudDia.Maximum = 31;
+           
 
             cbMetodoPago.Items.AddRange(new[] { "Efectivo", "Transferencia" });
             cbMetodoPago.SelectedIndex = 0;
@@ -337,42 +333,7 @@ namespace GestioLocalLab3.Desktop
         private void nudPrecioProducto_ValueChanged(object sender, EventArgs e)
         {
 
-        }
-
-        private async void btnVerReporte_Click(object sender, EventArgs e)
-        {
-            if (cbMes.SelectedItem == null)
-            {
-                MessageBox.Show("Seleccioná un mes.");
-                return;
-            }
-
-            int mes = int.Parse(cbMes.SelectedItem.ToString());
-            int dia = (int)nudDia.Value;
-
-            using HttpClient client = new HttpClient { BaseAddress = new Uri("https://localhost:7096/") };
-            var response = await client.GetAsync($"api/Reporte/Mensual?mes={mes}&dia={dia}");
-
-            if (response.IsSuccessStatusCode)
-            {
-                var resumen = await response.Content.ReadFromJsonAsync<ResumenVenta>();
-
-                lblTotalMes.Text = $"Ventas: {resumen.CantidadVentas}\n" +
-                                   $"Total: {resumen.TotalGeneral:C}\n" +
-                                   $"Efectivo: {resumen.TotalEfectivo:C}\n" +
-                                   $"Transferencia: {resumen.TotalTransferencia:C}";
-            }
-            else
-            {
-                MessageBox.Show("Error al obtener el resumen:\n" + await response.Content.ReadAsStringAsync());
-            }
-
-        }
-
-
-
-
-
+        }              
         private void cbMes_SelectedIndexChanged(object sender, EventArgs e)
         {
             

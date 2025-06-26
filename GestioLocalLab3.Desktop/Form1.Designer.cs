@@ -47,12 +47,17 @@
             btnAgregarProducto = new Button();
             dgvStock = new DataGridView();
             tabReporte = new TabPage();
-            lblTotalMes = new Label();
-            lblResultado = new Label();
-            btnVerReporte = new Button();
-            nudDia = new NumericUpDown();
-            cbMes = new ComboBox();
+            label8 = new Label();
+            groupBox3 = new GroupBox();
+            dgvVentas = new DataGridView();
+            groupBox2 = new GroupBox();
+            btnElimanarVenta = new Button();
+            btnEditarReporte = new Button();
+            groupBox1 = new GroupBox();
+            btnVentasMes = new Button();
+            btnVentasDia = new Button();
             contextMenuStrip1 = new ContextMenuStrip(components);
+            btnDescargar = new Button();
             tabControl.SuspendLayout();
             tabVenta.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewCarrito).BeginInit();
@@ -60,7 +65,10 @@
             tabStock.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvStock).BeginInit();
             tabReporte.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)nudDia).BeginInit();
+            groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvVentas).BeginInit();
+            groupBox2.SuspendLayout();
+            groupBox1.SuspendLayout();
             SuspendLayout();
             // 
             // tabControl
@@ -255,6 +263,7 @@
             // 
             // tabReporte
             // 
+ feature/winforms
             tabReporte.Controls.Add(lblTotalMes);
             tabReporte.Controls.Add(lblResultado);
             tabReporte.Controls.Add(btnVerReporte);
@@ -262,6 +271,7 @@
             tabReporte.Controls.Add(cbMes);
             tabReporte.Location = new Point(4, 29);
             tabReporte.Margin = new Padding(3, 4, 3, 4);
+
             tabReporte.Name = "tabReporte";
             tabReporte.Padding = new Padding(3, 4, 3, 4);
             tabReporte.Size = new Size(894, 551);
@@ -270,6 +280,7 @@
             tabReporte.UseVisualStyleBackColor = true;
             tabReporte.Click += tabReporte_Click;
             // 
+ feature/winforms
             // lblTotalMes
             // 
             lblTotalMes.AutoSize = true;
@@ -317,12 +328,22 @@
             cbMes.Size = new Size(138, 28);
             cbMes.TabIndex = 1;
             cbMes.SelectedIndexChanged += cbMes_SelectedIndexChanged;
+
             // 
             // contextMenuStrip1
             // 
             contextMenuStrip1.ImageScalingSize = new Size(20, 20);
             contextMenuStrip1.Name = "contextMenuStrip1";
             contextMenuStrip1.Size = new Size(61, 4);
+            // 
+            // btnDescargar
+            // 
+            btnDescargar.Location = new Point(30, 118);
+            btnDescargar.Name = "btnDescargar";
+            btnDescargar.Size = new Size(75, 23);
+            btnDescargar.TabIndex = 6;
+            btnDescargar.Text = "Descargar";
+            btnDescargar.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -343,7 +364,10 @@
             ((System.ComponentModel.ISupportInitialize)dgvStock).EndInit();
             tabReporte.ResumeLayout(false);
             tabReporte.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)nudDia).EndInit();
+            groupBox3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dgvVentas).EndInit();
+            groupBox2.ResumeLayout(false);
+            groupBox1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -360,18 +384,21 @@
         private Label label1;
         private ComboBox cbMetodoPago;
         private Button btnRegistarVenta;
+ feature/winforms
         private DataGridView dgvStock;
         private Label lblResultado;
         private Button btnVerReporte;
         private NumericUpDown nudDia;
         private ComboBox cbMes;
+ develop
         private Button btnAgregarAlCarrito;
         private DataGridView dataGridViewCarrito;
         private Button btnAgregarProducto;
         private Button btnEliminarProducto;
         private Button btnEditarProducto;
         private Button btnCargarProducto;
-        private Label lblTotalMes;
         private ContextMenuStrip contextMenuStrip1;
+ feature/winforms
+
     }
 }

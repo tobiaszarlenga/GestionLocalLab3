@@ -1,5 +1,4 @@
 ﻿using GestioLocalLab3.API.Models;
-using System.Collections.Generic;
 
 namespace GestioLocalLab3.API.Interface
 {
