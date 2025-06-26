@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Net.Http.Json;
 using GestioLocalLab3.Desktop.Models;
+using System.Globalization;
+
 
 namespace GestioLocalLab3.Desktop
 {
@@ -22,12 +24,7 @@ namespace GestioLocalLab3.Desktop
             cbMetodoPago.SelectedIndex = 0;
 
             ConfigurarGrillaCarrito();
-            await CargarProductosAsync();
-
-            nudPrecioProducto.DecimalPlaces = 2;
-            nudPrecioProducto.Increment = 10;
-            nudPrecioProducto.Maximum = 1000000;
-            nudPrecioProducto.Minimum = 1;
+            await CargarProductosAsync();            
         }
 
         //FUNCION ASYNCRONA PARA TRAER LA LISTA DE PRODUCTOS DE MI API REST USANDO HTTP
@@ -174,17 +171,17 @@ namespace GestioLocalLab3.Desktop
         {
             var productos = await ObtenerProductosAsync();
 
-            dataGridViewStock.Rows.Clear();
-            dataGridViewStock.Columns.Clear();
-            dataGridViewStock.Columns.Add("Id", "ID");
-            dataGridViewStock.Columns.Add("Nombre", "Nombre");
-            dataGridViewStock.Columns.Add("Talle", "Talle");
-            dataGridViewStock.Columns.Add("Precio", "Precio");
-            dataGridViewStock.Columns.Add("Stock", "Stock");
+            dgvStock.Rows.Clear();
+            dgvStock.Columns.Clear();
+            dgvStock.Columns.Add("Id", "ID");
+            dgvStock.Columns.Add("Nombre", "Nombre");
+            dgvStock.Columns.Add("Talle", "Talle");
+            dgvStock.Columns.Add("Precio", "Precio");
+            dgvStock.Columns.Add("Stock", "Stock");
 
             foreach (var p in productos)
             {
-                dataGridViewStock.Rows.Add(p.Id, p.Nombre, p.Talle, p.Precio.ToString("C"), p.StockActual);
+                dgvStock.Rows.Add(p.Id, p.Nombre, p.Talle, p.Precio.ToString("C"), p.StockActual);
             }
         }
 
@@ -218,12 +215,8 @@ namespace GestioLocalLab3.Desktop
         {
             if (e.RowIndex < 0) return;
 
-            var fila = dataGridViewStock.Rows[e.RowIndex];
-            idProductoSeleccionado = Convert.ToInt32(fila.Cells["Id"].Value);
-            txtNombreProducto.Text = fila.Cells["Nombre"].Value?.ToString();
-            txtTalleProducto.Text = fila.Cells["Talle"].Value?.ToString();
-            nudPrecioProducto.Value = decimal.Parse(fila.Cells["Precio"].Value?.ToString().Replace("$", ""));
-            nudStockProducto.Value = Convert.ToInt32(fila.Cells["Stock"].Value);
+            var fila = dgvStock.Rows[e.RowIndex];
+            idProductoSeleccionado = Convert.ToInt32(fila.Cells["Id"].Value);           
         }
 
 
@@ -257,83 +250,57 @@ namespace GestioLocalLab3.Desktop
         //EVENTO PARA EDITAR UN PRODUCTO EN TAB STOCK
         private async void btnEditarProducto_Click(object sender, EventArgs e)
         {
-            if (idProductoSeleccionado == -1)
+            if (dgvStock.CurrentRow == null)
             {
-                MessageBox.Show("Seleccioná un producto primero.");
+                MessageBox.Show("Seleccioná una fila primero.");
                 return;
             }
 
-            string nombre = txtNombreProducto.Text.Trim();
-            decimal precio = nudPrecioProducto.Value;
-            int stock = (int)nudStockProducto.Value;
+            var fila = dgvStock.CurrentRow;
+            var textoPrecio = fila.Cells["Precio"].Value?.ToString() ?? "0";
+            textoPrecio = textoPrecio.Replace("$", "").Trim();
+            textoPrecio = textoPrecio.Replace(".", "").Replace(",", ".");
+            decimal precio = Convert.ToDecimal(textoPrecio, CultureInfo.InvariantCulture);
 
-            if (string.IsNullOrWhiteSpace(nombre) || precio <= 0 || stock < 0)
+            var producto = new Producto
             {
-                MessageBox.Show("Completá todos los campos correctamente.");
-                return;
-            }
+                Id = Convert.ToInt32(fila.Cells["Id"].Value),
+                Nombre = fila.Cells["Nombre"].Value?.ToString() ?? "",
+                Talle = fila.Cells["Talle"].Value?.ToString() ?? "",
+                Precio = precio,
+                StockActual = Convert.ToInt32(fila.Cells["Stock"].Value)
+            };
 
-            var producto = new Producto { Id = idProductoSeleccionado, Nombre = nombre, Precio = precio, StockActual = stock };
-
-            using HttpClient client = new HttpClient { BaseAddress = new Uri("https://localhost:7096/") };
-            var response = await client.PutAsJsonAsync($"api/Producto/{idProductoSeleccionado}", producto);
-
-            if (response.IsSuccessStatusCode)
+            using var formEdit = new FormEditarProducto(producto);
+            if (formEdit.ShowDialog() == DialogResult.OK)
             {
-                MessageBox.Show("Producto editado.");
-                idProductoSeleccionado = -1;
-                txtNombreProducto.Clear();
-                nudPrecioProducto.Value = nudPrecioProducto.Minimum; ;
-                nudStockProducto.Value = nudStockProducto.Minimum;
-                await CargarProductosEnGrilla();
-            }
-            else
-            {
-                MessageBox.Show("Error al editar: \n" + await response.Content.ReadAsStringAsync());
+                var productoEditado = formEdit.ProductoEditado;
+
+                using HttpClient client = new HttpClient { BaseAddress = new Uri("https://localhost:7096/") };
+                var response = await client.PutAsJsonAsync($"api/Producto/{productoEditado.Id}", productoEditado);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Producto editado correctamente.");
+                    await CargarProductosEnGrilla(); // 
+                }
+                else
+                {
+                    string error = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show($"Error al editar:\n{error}");
+                }
             }
         }
 
         //EVENTO PARA AGREGAR PRODUCTOS AL STOCK
         private async void btnAgregarProducto_Click(object sender, EventArgs e)
         {
-            string nombre = txtNombreProducto.Text.Trim();
-            decimal precio = nudPrecioProducto.Value;
-            int stock = (int)nudStockProducto.Value;
-            string talle = txtTalleProducto.Text; 
-                
-            if (string.IsNullOrWhiteSpace(nombre) || precio <= 0 || stock < 0)
-            {
-                MessageBox.Show("Completá correctamente todos los campos.");
-                return;
-            }
+            using var formAgregar = new FormEditarProducto();
 
-            var nuevoProducto = new Producto
+            if (formAgregar.ShowDialog() == DialogResult.OK)
             {
-              
-                Nombre = nombre,
-                Talle = talle,
-                Precio = precio,
-                StockActual = stock
-            };
-
-            using (HttpClient client = new HttpClient())
-            {
-                client.BaseAddress = new Uri("https://localhost:7096/");
-                var response = await client.PostAsJsonAsync("api/Producto", nuevoProducto);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    MessageBox.Show("Producto agregado correctamente.");
-                    await CargarProductosEnGrilla();
-                    txtNombreProducto.Clear();
-                    nudPrecioProducto.Value = nudPrecioProducto.Minimum;
-                    nudStockProducto.Value = nudStockProducto.Minimum;
-                }
-                else
-                {
-                    string msg = await response.Content.ReadAsStringAsync();
-                    MessageBox.Show("Error al agregar producto:\n" + msg);
-                }
+                await CargarProductosEnGrilla(); // Refrescar la grilla después de agregar
+                MessageBox.Show("Producto agregado exitosamente.");
             }
         }
 
