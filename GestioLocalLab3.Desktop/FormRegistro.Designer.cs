@@ -30,10 +30,10 @@
         {
             txtNombre = new TextBox();
             txtPassword = new TextBox();
-            button2 = new Button();
             label1 = new Label();
             label2 = new Label();
             btnRegistrar = new Button();
+            btnCancelar = new Button();
             SuspendLayout();
             // 
             // txtNombre
@@ -50,15 +50,6 @@
             txtPassword.Size = new Size(100, 23);
             txtPassword.TabIndex = 1;
             txtPassword.UseSystemPasswordChar = true;
-            // 
-            // button2
-            // 
-            button2.Location = new Point(211, 189);
-            button2.Name = "button2";
-            button2.Size = new Size(75, 23);
-            button2.TabIndex = 3;
-            button2.Text = "Cancelar";
-            button2.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
@@ -88,15 +79,25 @@
             btnRegistrar.UseVisualStyleBackColor = true;
             btnRegistrar.Click += btnRegistrar_Click;
             // 
+            // btnCancelar
+            // 
+            btnCancelar.Location = new Point(209, 189);
+            btnCancelar.Name = "btnCancelar";
+            btnCancelar.Size = new Size(75, 23);
+            btnCancelar.TabIndex = 7;
+            btnCancelar.Text = "Cancelar";
+            btnCancelar.UseVisualStyleBackColor = true;
+            btnCancelar.Click += btnCancelar_Click;
+            // 
             // FormRegistro
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(396, 251);
+            Controls.Add(btnCancelar);
             Controls.Add(btnRegistrar);
             Controls.Add(label2);
             Controls.Add(label1);
-            Controls.Add(button2);
             Controls.Add(txtPassword);
             Controls.Add(txtNombre);
             Name = "FormRegistro";
@@ -109,9 +110,9 @@
 
         private TextBox txtNombre;
         private TextBox txtPassword;
-        private Button button2;
         private Label label1;
         private Label label2;
         private Button btnRegistrar;
+        private Button btnCancelar;
     }
 }

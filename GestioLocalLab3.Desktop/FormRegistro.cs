@@ -29,7 +29,7 @@ namespace GestioLocalLab3.Desktop
 
             try
             {
-                var  httpClient = new HttpClient
+                var httpClient = new HttpClient
                 {
                     BaseAddress = new Uri("https://localhost:7096/")
                 };
@@ -51,6 +51,13 @@ namespace GestioLocalLab3.Desktop
             {
                 MessageBox.Show("Error de conexión: " + ex.Message);
             }
+        }
+
+       
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

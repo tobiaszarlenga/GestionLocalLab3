@@ -62,9 +62,12 @@ namespace GestioLocalLab3.Desktop
             }
         }
 
-        private void btnRegistro_Click(object sender, EventArgs e)
+       
+
+        private void btnRegistro_Click_1(object sender, EventArgs e)
         {
             new FormRegistro().ShowDialog();
+
         }
     }
 }
