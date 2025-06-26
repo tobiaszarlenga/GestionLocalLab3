@@ -56,12 +56,17 @@
             btnCargarProductosStock = new Button();
             dataGridViewStock = new DataGridView();
             tabReporte = new TabPage();
-            lblTotalMes = new Label();
-            lblResultado = new Label();
-            btnVerReporte = new Button();
-            nudDia = new NumericUpDown();
-            cbMes = new ComboBox();
+            label8 = new Label();
+            groupBox3 = new GroupBox();
+            dgvVentas = new DataGridView();
+            groupBox2 = new GroupBox();
+            btnElimanarVenta = new Button();
+            btnEditarReporte = new Button();
+            groupBox1 = new GroupBox();
+            btnVentasMes = new Button();
+            btnVentasDia = new Button();
             contextMenuStrip1 = new ContextMenuStrip(components);
+            btnDescargar = new Button();
             tabControl.SuspendLayout();
             tabVenta.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewCarrito).BeginInit();
@@ -71,7 +76,10 @@
             ((System.ComponentModel.ISupportInitialize)nudPrecioProducto).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridViewStock).BeginInit();
             tabReporte.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)nudDia).BeginInit();
+            groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvVentas).BeginInit();
+            groupBox2.SuspendLayout();
+            groupBox1.SuspendLayout();
             SuspendLayout();
             // 
             // tabControl
@@ -334,11 +342,10 @@
             // 
             // tabReporte
             // 
-            tabReporte.Controls.Add(lblTotalMes);
-            tabReporte.Controls.Add(lblResultado);
-            tabReporte.Controls.Add(btnVerReporte);
-            tabReporte.Controls.Add(nudDia);
-            tabReporte.Controls.Add(cbMes);
+            tabReporte.Controls.Add(label8);
+            tabReporte.Controls.Add(groupBox3);
+            tabReporte.Controls.Add(groupBox2);
+            tabReporte.Controls.Add(groupBox1);
             tabReporte.Location = new Point(4, 24);
             tabReporte.Name = "tabReporte";
             tabReporte.Padding = new Padding(3);
@@ -348,55 +355,106 @@
             tabReporte.UseVisualStyleBackColor = true;
             tabReporte.Click += tabReporte_Click;
             // 
-            // lblTotalMes
+            // label8
             // 
-            lblTotalMes.AutoSize = true;
-            lblTotalMes.Location = new Point(465, 172);
-            lblTotalMes.Name = "lblTotalMes";
-            lblTotalMes.Size = new Size(67, 15);
-            lblTotalMes.TabIndex = 6;
-            lblTotalMes.Text = "lblTotalMes";
+            label8.AutoSize = true;
+            label8.Font = new Font("Segoe UI Symbol", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label8.Location = new Point(223, 19);
+            label8.Name = "label8";
+            label8.Size = new Size(323, 32);
+            label8.TabIndex = 8;
+            label8.Text = "Administracion de Reporte";
             // 
-            // lblResultado
+            // groupBox3
             // 
-            lblResultado.AutoSize = true;
-            lblResultado.Location = new Point(329, 119);
-            lblResultado.Name = "lblResultado";
-            lblResultado.Size = new Size(10, 15);
-            lblResultado.TabIndex = 4;
-            lblResultado.Text = ".";
-            lblResultado.Click += lblResultado_Click;
+            groupBox3.Controls.Add(dgvVentas);
+            groupBox3.Location = new Point(174, 86);
+            groupBox3.Name = "groupBox3";
+            groupBox3.Size = new Size(525, 301);
+            groupBox3.TabIndex = 7;
+            groupBox3.TabStop = false;
+            groupBox3.Text = "Reporte";
             // 
-            // btnVerReporte
+            // dgvVentas
             // 
-            btnVerReporte.Location = new Point(61, 263);
-            btnVerReporte.Name = "btnVerReporte";
-            btnVerReporte.Size = new Size(75, 23);
-            btnVerReporte.TabIndex = 3;
-            btnVerReporte.Text = "Consultar";
-            btnVerReporte.UseVisualStyleBackColor = true;
-            btnVerReporte.Click += btnVerReporte_Click;
+            dgvVentas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvVentas.Location = new Point(6, 16);
+            dgvVentas.Name = "dgvVentas";
+            dgvVentas.Size = new Size(513, 279);
+            dgvVentas.TabIndex = 4;
             // 
-            // nudDia
+            // groupBox2
             // 
-            nudDia.Location = new Point(61, 119);
-            nudDia.Name = "nudDia";
-            nudDia.Size = new Size(120, 23);
-            nudDia.TabIndex = 2;
+            groupBox2.Controls.Add(btnDescargar);
+            groupBox2.Controls.Add(btnElimanarVenta);
+            groupBox2.Controls.Add(btnEditarReporte);
+            groupBox2.Location = new Point(6, 199);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new Size(148, 188);
+            groupBox2.TabIndex = 6;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "Acciones";
             // 
-            // cbMes
+            // btnElimanarVenta
             // 
-            cbMes.FormattingEnabled = true;
-            cbMes.Location = new Point(61, 73);
-            cbMes.Name = "cbMes";
-            cbMes.Size = new Size(121, 23);
-            cbMes.TabIndex = 1;
-            cbMes.SelectedIndexChanged += cbMes_SelectedIndexChanged;
+            btnElimanarVenta.Location = new Point(30, 80);
+            btnElimanarVenta.Name = "btnElimanarVenta";
+            btnElimanarVenta.Size = new Size(75, 23);
+            btnElimanarVenta.TabIndex = 5;
+            btnElimanarVenta.Text = "Eliminar";
+            btnElimanarVenta.UseVisualStyleBackColor = true;
+            // 
+            // btnEditarReporte
+            // 
+            btnEditarReporte.Location = new Point(30, 41);
+            btnEditarReporte.Name = "btnEditarReporte";
+            btnEditarReporte.Size = new Size(75, 23);
+            btnEditarReporte.TabIndex = 4;
+            btnEditarReporte.Text = "Editar";
+            btnEditarReporte.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(btnVentasMes);
+            groupBox1.Controls.Add(btnVentasDia);
+            groupBox1.Location = new Point(6, 86);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(148, 107);
+            groupBox1.TabIndex = 5;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Datos";
+            // 
+            // btnVentasMes
+            // 
+            btnVentasMes.Location = new Point(21, 69);
+            btnVentasMes.Name = "btnVentasMes";
+            btnVentasMes.Size = new Size(100, 23);
+            btnVentasMes.TabIndex = 7;
+            btnVentasMes.Text = "Ver Ventas Mes";
+            btnVentasMes.UseVisualStyleBackColor = true;
+            // 
+            // btnVentasDia
+            // 
+            btnVentasDia.Location = new Point(21, 31);
+            btnVentasDia.Name = "btnVentasDia";
+            btnVentasDia.Size = new Size(100, 23);
+            btnVentasDia.TabIndex = 6;
+            btnVentasDia.Text = "Ver Ventas Dia";
+            btnVentasDia.UseVisualStyleBackColor = true;
             // 
             // contextMenuStrip1
             // 
             contextMenuStrip1.Name = "contextMenuStrip1";
             contextMenuStrip1.Size = new Size(61, 4);
+            // 
+            // btnDescargar
+            // 
+            btnDescargar.Location = new Point(30, 118);
+            btnDescargar.Name = "btnDescargar";
+            btnDescargar.Size = new Size(75, 23);
+            btnDescargar.TabIndex = 6;
+            btnDescargar.Text = "Descargar";
+            btnDescargar.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -419,7 +477,10 @@
             ((System.ComponentModel.ISupportInitialize)dataGridViewStock).EndInit();
             tabReporte.ResumeLayout(false);
             tabReporte.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)nudDia).EndInit();
+            groupBox3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dgvVentas).EndInit();
+            groupBox2.ResumeLayout(false);
+            groupBox1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -438,10 +499,6 @@
         private Button btnRegistarVenta;
         private Button btnCargarProductosStock;
         private DataGridView dataGridViewStock;
-        private Label lblResultado;
-        private Button btnVerReporte;
-        private NumericUpDown nudDia;
-        private ComboBox cbMes;
         private Button btnAgregarAlCarrito;
         private DataGridView dataGridViewCarrito;
         private NumericUpDown nudStockProducto;
@@ -454,9 +511,18 @@
         private Button btnEliminarProducto;
         private Button btnEditarProducto;
         private Button btnCargarProducto;
-        private Label lblTotalMes;
         private ContextMenuStrip contextMenuStrip1;
         private Label label7;
         private TextBox txtTalleProducto;
+        private GroupBox groupBox1;
+        private DataGridView dgvVentas;
+        private GroupBox groupBox2;
+        private Button btnVentasMes;
+        private Button btnVentasDia;
+        private Button btnElimanarVenta;
+        private Button btnEditarReporte;
+        private GroupBox groupBox3;
+        private Label label8;
+        private Button btnDescargar;
     }
 }
