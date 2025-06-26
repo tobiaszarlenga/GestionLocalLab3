@@ -35,6 +35,34 @@ namespace GestioLocalLab3.API.Controllers
             _ventaRepo.Agregar(venta);
             return CreatedAtAction(nameof(Get), new { id = venta.Id }, venta);
         }
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, [FromBody] Venta venta)
+        {
+            try
+            {
+                venta.Id = id;
+                _ventaRepo.Editar(venta);
+                return Ok(venta);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            try
+            {
+                _ventaRepo.Eliminar(id);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
         

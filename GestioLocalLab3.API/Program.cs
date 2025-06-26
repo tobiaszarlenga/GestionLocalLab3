@@ -1,19 +1,30 @@
 using GestioLocalLab3.API.Interface;
 using GestionLocalLab3.API.Repositories;
+using GestioLocalLab3.API.Models;        
+using GestioLocalLab3.API.Repositories;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddSingleton<IProductoRepository, ProductoRepository>();
-builder.Services.AddSingleton<IVentaRepository, VentaRepository>();
+// Instanciar la lista única de productos
+var productos = new List<Producto>
+{
+    new Producto { Id = 1, Nombre = "Remera", Talle = "M", Precio = 4500, StockActual = 10 },
+    new Producto { Id = 2, Nombre = "Jean", Talle = "42", Precio = 12000, StockActual = 7 }
+    // Agregá más productos si querés
+};
+
+// Registrar ambos repositorios usando la misma lista
+builder.Services.AddSingleton<IProductoRepository>(new ProductoRepository(productos));
+builder.Services.AddSingleton<IVentaRepository>(new VentaRepository(productos));
+
+// El resto igual
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -21,9 +32,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
+

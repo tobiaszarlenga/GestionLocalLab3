@@ -47,6 +47,11 @@ namespace GestionLocalLab3.API.Repositories
         }
         private readonly IProductoRepository _productoRepo;
 
-        
+        public ProductoRepository(List<Producto> productos)
+        {
+            _productos = productos;
+        }
+
     }
+
 }

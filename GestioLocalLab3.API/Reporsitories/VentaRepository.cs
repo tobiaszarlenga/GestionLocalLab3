@@ -1,13 +1,18 @@
 ﻿using GestioLocalLab3.API.Interface;
 using GestioLocalLab3.API.Models;
 
-
-namespace GestionLocalLab3.API.Repositories
+namespace GestioLocalLab3.API.Repositories
 {
     public class VentaRepository : IVentaRepository
     {
-        private readonly List<Venta> _ventas = new();
+        private readonly List<Venta> _ventas = new List<Venta>();
+        private readonly List<Producto> _productos;
         private int _nextId = 1;
+
+        public VentaRepository(List<Producto> productos)
+        {
+            _productos = productos;
+        }
 
         public List<Venta> ObtenerTodas()
         {
@@ -21,32 +26,73 @@ namespace GestionLocalLab3.API.Repositories
 
         public void Agregar(Venta venta)
         {
-            venta.Id = _nextId++;
-            venta.Fecha = DateTime.Now;
-            venta.MontoTotal = venta.Detalles.Sum(d => d.Cantidad * d.PrecioUnitario);
+            // Validar stock y descontar
             foreach (var detalle in venta.Detalles)
             {
-                var producto = _productoRepo.ObtenerPorId(detalle.ProductoID);
-                if (producto != null)
-                {
-                    if (producto.StockActual >= detalle.Cantidad)
-                    {
-                        producto.StockActual -= detalle.Cantidad;
-                        _productoRepo.Actualizar(producto);
-                    }
-                    else
-                    {
-                        throw new InvalidOperationException($"No hay suficiente stock para el producto '{producto.Nombre}'");
-                    }
-                }
-            }
-                _ventas.Add(venta);
-        }
-        private readonly IProductoRepository _productoRepo;
+                var producto = _productos.FirstOrDefault(p => p.Id == detalle.ProductoID);
+                if (producto == null)
+                    throw new Exception($"Producto con ID {detalle.ProductoID} no existe.");
 
-        public VentaRepository(IProductoRepository productoRepo)
-        {
-            _productoRepo = productoRepo;
+                if (producto.StockActual < detalle.Cantidad)
+                    throw new Exception($"Stock insuficiente para el producto: {producto.Nombre}");
+
+                producto.StockActual -= detalle.Cantidad;
+            }
+
+            venta.Id = _nextId++;
+            _ventas.Add(venta);
         }
+
+        public void Editar(Venta ventaEditada)
+        {
+            var ventaOriginal = _ventas.FirstOrDefault(v => v.Id == ventaEditada.Id);
+            if (ventaOriginal == null)
+                throw new Exception("Venta no encontrada.");
+
+            // 1. Devolver al stock los productos originales
+            foreach (var detalle in ventaOriginal.Detalles)
+            {
+                var producto = _productos.FirstOrDefault(p => p.Id == detalle.ProductoID);
+                if (producto != null)
+                    producto.StockActual += detalle.Cantidad;
+            }
+
+            // 2. Validar stock y descontar los nuevos productos
+            foreach (var detalle in ventaEditada.Detalles)
+            {
+                var producto = _productos.FirstOrDefault(p => p.Id == detalle.ProductoID);
+                if (producto == null)
+                    throw new Exception($"Producto con ID {detalle.ProductoID} no existe.");
+
+                if (producto.StockActual < detalle.Cantidad)
+                    throw new Exception($"Stock insuficiente para el producto: {producto.Nombre}");
+
+                producto.StockActual -= detalle.Cantidad;
+            }
+
+            // 3. Actualizar los datos de la venta
+            ventaOriginal.Fecha = ventaEditada.Fecha;
+            ventaOriginal.MontoTotal = ventaEditada.MontoTotal;
+            ventaOriginal.MetodoPago = ventaEditada.MetodoPago;
+            ventaOriginal.Detalles = ventaEditada.Detalles;
+        }
+
+        public void Eliminar(int ventaId)
+        {
+            var venta = _ventas.FirstOrDefault(v => v.Id == ventaId);
+            if (venta == null)
+                throw new Exception("Venta no encontrada.");
+
+            // Devolver productos al stock
+            foreach (var detalle in venta.Detalles)
+            {
+                var producto = _productos.FirstOrDefault(p => p.Id == detalle.ProductoID);
+                if (producto != null)
+                    producto.StockActual += detalle.Cantidad;
+            }
+
+            _ventas.Remove(venta);
+        }
+
     }
 }
