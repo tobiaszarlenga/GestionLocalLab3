@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GestioLocalLab3.Desktop.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
