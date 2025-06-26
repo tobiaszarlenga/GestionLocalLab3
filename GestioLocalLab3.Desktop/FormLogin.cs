@@ -23,7 +23,7 @@ namespace GestioLocalLab3.Desktop
             InitializeComponent();
             _httpClient = new HttpClient
             {
-                BaseAddress = new Uri("https://localhost:7138/")
+                BaseAddress = new Uri("https://localhost:7096/")
             };
         }
 

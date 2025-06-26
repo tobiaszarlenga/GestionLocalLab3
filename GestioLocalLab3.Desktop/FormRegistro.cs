@@ -31,7 +31,7 @@ namespace GestioLocalLab3.Desktop
             {
                 var  httpClient = new HttpClient
                 {
-                    BaseAddress = new Uri("https://localhost:7138/")
+                    BaseAddress = new Uri("https://localhost:7096/")
                 };
 
                 var response = await httpClient.PostAsJsonAsync("api/Usuario/Register", usuario);
