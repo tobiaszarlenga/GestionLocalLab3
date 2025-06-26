@@ -51,13 +51,13 @@
             groupBox3 = new GroupBox();
             dgvVentas = new DataGridView();
             groupBox2 = new GroupBox();
+            btnDescargar = new Button();
             btnElimanarVenta = new Button();
             btnEditarReporte = new Button();
             groupBox1 = new GroupBox();
             btnVentasMes = new Button();
             btnVentasDia = new Button();
             contextMenuStrip1 = new ContextMenuStrip(components);
-            btnDescargar = new Button();
             tabControl.SuspendLayout();
             tabVenta.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewCarrito).BeginInit();
@@ -335,15 +335,6 @@
             contextMenuStrip1.ImageScalingSize = new Size(20, 20);
             contextMenuStrip1.Name = "contextMenuStrip1";
             contextMenuStrip1.Size = new Size(61, 4);
-            // 
-            // btnDescargar
-            // 
-            btnDescargar.Location = new Point(30, 118);
-            btnDescargar.Name = "btnDescargar";
-            btnDescargar.Size = new Size(75, 23);
-            btnDescargar.TabIndex = 6;
-            btnDescargar.Text = "Descargar";
-            btnDescargar.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
