@@ -48,7 +48,7 @@ namespace GestioLocalLab3.Desktop
 
                     // Abrir pantalla principal y cerrar login
                     this.Hide();
-                    new Form1().Show(); // tu menú principal
+                    new Form2.0().Show(); // tu menú principal
                 }
                 else
                 {
