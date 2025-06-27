@@ -73,19 +73,25 @@ namespace GestioLocalLab3.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] Venta venta)
+        public IActionResult Put(int id, [FromBody] DetalleVentaDto detalleDto)
         {
-            try
-            {
-                venta.Id = id;
-                _ventaRepo.Editar(venta);
-                return Ok(venta);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var venta = _ventaRepo.ObtenerPorId(id);
+            if (venta == null)
+                return NotFound();
+
+            // Buscar el detalle correcto por su ID
+            var detalle = venta.Detalles.FirstOrDefault(d => d.ID == detalleDto.ID);
+            if (detalle == null)
+                return NotFound();
+
+            detalle.Cantidad = detalleDto.Cantidad;
+            detalle.PrecioUnitario = detalleDto.PrecioUnitario;
+            detalle.ModoPago = detalleDto.ModoPago;
+
+            return Ok(detalleDto);
         }
+
+
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)

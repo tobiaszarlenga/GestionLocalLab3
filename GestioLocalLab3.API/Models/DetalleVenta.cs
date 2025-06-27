@@ -11,6 +11,8 @@ namespace GestioLocalLab3.API.Models
         public Producto? Producto { get; set; }
         public int Cantidad { get; set; }
         public decimal PrecioUnitario { get; set; }
+        public string? ModoPago { get; set; }
+
 
     }
 }

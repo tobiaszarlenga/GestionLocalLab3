@@ -211,6 +211,7 @@
             btnEditarVenta.TabIndex = 4;
             btnEditarVenta.Text = "Editar";
             btnEditarVenta.UseVisualStyleBackColor = true;
+            btnEditarVenta.Visible = false;
             btnEditarVenta.Click += btnEditarVenta_Click;
             // 
             // btnEliminarVenta
@@ -221,6 +222,7 @@
             btnEliminarVenta.TabIndex = 3;
             btnEliminarVenta.Text = "Eliminar";
             btnEliminarVenta.UseVisualStyleBackColor = true;
+            btnEliminarVenta.Click += btnEliminarVenta_Click;
             // 
             // btnVentasMes
             // 

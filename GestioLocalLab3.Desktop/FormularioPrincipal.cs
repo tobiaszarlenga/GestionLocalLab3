@@ -238,6 +238,8 @@ namespace GestioLocalLab3.Desktop
                 );
 
                 dgvReporte.DataSource = ventas;
+                dgvReporte.Columns["VentaId"].Visible = false;
+
 
                 // Solo agregar columna si no existe
                 if (!dgvReporte.Columns.Contains("PrecioUnitario"))
@@ -304,17 +306,84 @@ namespace GestioLocalLab3.Desktop
 
         private async void btnVentasDia_Click(object sender, EventArgs e)
         {
-            await CargarVentasMes();
+            await CargarVentasHoy();
         }
 
         private async void btnVentasMes_Click(object sender, EventArgs e)
         {
-            await CargarVentasHoy();
+            await CargarVentasMes();
         }
 
-        private void btnEditarVenta_Click(object sender, EventArgs e)
+        private async void btnEditarVenta_Click(object sender, EventArgs e)
         {
+            if (dgvReporte.CurrentRow == null)
+            {
+                MessageBox.Show("Seleccioná una venta para editar.");
+                return;
+            }
 
+            var detalle = (DetalleVentaDto)dgvReporte.CurrentRow.DataBoundItem;
+
+            using var formEditar = new FormEditarVenta(detalle);
+            var result = formEditar.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                using var client = new HttpClient();
+                client.BaseAddress = new Uri("https://localhost:7096/");
+
+                var response = await client.PutAsJsonAsync($"api/Venta/{detalle.VentaId}", detalle);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Venta actualizada.");
+                    await CargarVentasMes(); // o el método que tengas
+                }
+                else
+                {
+                    var error = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show("Error al editar venta: " + error);
+                }
+            }
+        }
+
+        private async void btnEliminarVenta_Click(object sender, EventArgs e)
+        {
+            if (dgvReporte.CurrentRow == null)
+            {
+                MessageBox.Show("Seleccioná una venta para eliminar.");
+                return;
+            }
+
+            var detalle = (DetalleVentaDto)dgvReporte.CurrentRow.DataBoundItem;
+            int idVenta = detalle.VentaId;
+
+            var confirm = MessageBox.Show(
+                $"¿Seguro que querés eliminar la venta {idVenta}?",
+                "Confirmar eliminación",
+                MessageBoxButtons.YesNo
+            );
+
+            if (confirm != DialogResult.Yes)
+                return;
+
+            using var client = new HttpClient();
+            client.BaseAddress = new Uri("https://localhost:7096/");
+
+            var response = await client.DeleteAsync($"api/Venta/{idVenta}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                MessageBox.Show("Venta eliminada.");
+                await CargarVentasMes();  // o el método que corresponda para refrescar
+            }
+            else
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                MessageBox.Show($"Error al eliminar venta: {error}");
+            }
         }
     }
+
 }
+

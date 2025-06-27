@@ -23,11 +23,13 @@ namespace GestionLocalLab3.API.Controllers
                 .Where(v => v.Fecha.Date == DateTime.Now.Date)
                 .SelectMany(v => v.Detalles.Select(d => new DetalleVentaDto
                 {
+                    
                     NombreProducto = d.Producto?.Nombre ?? "",
                     Cantidad = d.Cantidad,
                     ModoPago = v.MetodoPago,
                     Fecha = v.Fecha,
-                    PrecioUnitario = d.PrecioUnitario
+                    PrecioUnitario = d.PrecioUnitario,
+                    VentaId = v.Id
                 }))
                 .ToList();
 
