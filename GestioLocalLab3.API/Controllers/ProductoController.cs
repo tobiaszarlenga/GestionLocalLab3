@@ -49,12 +49,20 @@ namespace GestionLocalLab3.API.Controllers
             return NoContent();
         }
 
-        
+
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            _repo.Eliminar(id);
-            return NoContent();
+            try
+            {
+                _repo.Eliminar(id);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
+
     }
 }

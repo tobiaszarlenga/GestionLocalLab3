@@ -1,34 +1,37 @@
 using GestioLocalLab3.API.Interface;
-using GestioLocalLab3.API.Models;
-using GestioLocalLab3.API.Repositories;
+
+using GestionLocalLab3.API.Data;
+
 using GestionLocalLab3.API.Interfaces;
 using GestionLocalLab3.API.Repositories;
 using GestionLocalLab3.API.Services;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Instanciar la lista única de productos
-var productos = new List<Producto>
-{
-    new Producto { Id = 1, Nombre = "Remera", Talle = "M", Precio = 4500, StockActual = 10 },
-    new Producto { Id = 2, Nombre = "Jean", Talle = "42", Precio = 12000, StockActual = 7 }
-};
+// Configurar DbContext
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Registrar repositorios y servicios
-builder.Services.AddSingleton<IProductoRepository>(new ProductoRepository(productos));
-builder.Services.AddSingleton<IVentaRepository>(new VentaRepository(productos));
-builder.Services.AddSingleton<IUsuarioRepository, UsuarioRepository>(); // ? agregado
-builder.Services.AddSingleton<IUsuarioService, UsuarioService>();
 
-// Configuración básica
-builder.Services.AddControllers();
+// Configurar Repositories
+builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
+builder.Services.AddScoped<IVentaRepository, VentaRepository>();
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+
+
+
+builder.Services.AddControllers()
+    .AddJsonOptions(x =>
+        x.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles);
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Middleware
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -36,6 +39,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
 app.UseAuthorization();
+
 app.MapControllers();
+
 app.Run();

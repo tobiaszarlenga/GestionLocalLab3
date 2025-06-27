@@ -1,57 +1,56 @@
 ﻿using GestioLocalLab3.API.Interface;
+using GestionLocalLab3.API.Data;
+
 using GestioLocalLab3.API.Models;
 
 namespace GestionLocalLab3.API.Repositories
 {
     public class ProductoRepository : IProductoRepository
-
     {
+        private readonly AppDbContext _context;
 
-        private readonly List<Producto> _productos = new();
+        public ProductoRepository(AppDbContext context)
+        {
+            _context = context;
+        }
 
         public List<Producto> ObtenerTodos()
         {
-            return _productos;
+            return _context.Productos.ToList();
         }
 
         public Producto? ObtenerPorId(int id)
         {
-            return _productos.FirstOrDefault(p => p.Id == id);
+            return _context.Productos.FirstOrDefault(p => p.Id == id);
         }
 
         public void Agregar(Producto producto)
         {
-            producto.Id = _productos.Count > 0 ? _productos.Max(p => p.Id) + 1 : 1;
-            _productos.Add(producto);
+            _context.Productos.Add(producto);
+            _context.SaveChanges();
         }
 
         public void Actualizar(Producto producto)
         {
-            var existente = ObtenerPorId(producto.Id);
-            if (existente != null)
-            {
-                existente.Nombre = producto.Nombre;
-                existente.Talle = producto.Talle;
-                existente.Precio = producto.Precio;
-                existente.StockActual = producto.StockActual;
-            }
+            _context.Productos.Update(producto);
+            _context.SaveChanges();
         }
 
         public void Eliminar(int id)
         {
-            var producto = ObtenerPorId(id);
+            var tieneDetalles = _context.DetallesVenta
+                .Any(d => d.ProductoID == id);
+
+            if (tieneDetalles)
+                throw new Exception("No se puede eliminar el producto porque tiene ventas registradas.");
+
+            var producto = _context.Productos.FirstOrDefault(p => p.Id == id);
             if (producto != null)
             {
-                _productos.Remove(producto);
+                _context.Productos.Remove(producto);
+                _context.SaveChanges();
             }
-        }
-        private readonly IProductoRepository _productoRepo;
-
-        public ProductoRepository(List<Producto> productos)
-        {
-            _productos = productos;
         }
 
     }
-
 }
