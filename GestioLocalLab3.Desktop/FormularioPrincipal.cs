@@ -159,6 +159,7 @@ namespace GestioLocalLab3.Desktop
 
             // Recargar productos
             await CargarProductosAsync(dgvProductos);
+            await CargarProductosAsync();
         }
 
         private async void btnEditarProducto_Click(object sender, EventArgs e)
@@ -176,6 +177,7 @@ namespace GestioLocalLab3.Desktop
 
             // Al volver, recargar productos
             await CargarProductosAsync(dgvProductos);
+            await CargarProductosAsync();
         }
 
         private async void btnEliminarProducto_Click(object sender, EventArgs e)
@@ -208,6 +210,7 @@ namespace GestioLocalLab3.Desktop
                 {
                     MessageBox.Show("Producto eliminado correctamente.");
                     await CargarProductosAsync(dgvProductos);
+                    await CargarProductosAsync();
                 }
                 else
                 {
