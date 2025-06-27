@@ -25,7 +25,7 @@ namespace GestioLocalLab3.Desktop
 
 
 
-        private async Task CargarProductosAsync()
+        private async Task CargarProductosAsync(DataGridView? grid = null)
         {
             try
             {
@@ -36,9 +36,17 @@ namespace GestioLocalLab3.Desktop
 
                 if (productos != null)
                 {
-                    cboProducto.DataSource = productos;
-                    cboProducto.DisplayMember = "Nombre";
-                    cboProducto.ValueMember = "Id";
+                    // Si viene un DataGridView, lo lleno
+                    if (grid != null)
+                    {
+                        grid.DataSource = productos;
+                    }
+                    else
+                    {
+                        cboProducto.DataSource = productos;
+                        cboProducto.DisplayMember = "Nombre";
+                        cboProducto.ValueMember = "Id";
+                    }
                 }
                 else
                 {
@@ -50,6 +58,7 @@ namespace GestioLocalLab3.Desktop
                 MessageBox.Show("Error: " + ex.Message);
             }
         }
+
         private async void FormularioPrincipal_Load(object sender, EventArgs e)
         {
             await CargarProductosAsync();
@@ -67,25 +76,31 @@ namespace GestioLocalLab3.Desktop
                 return;
             }
 
-          
+
             var producto = cboProducto.SelectedItem as Producto;
             if (producto == null)
             {
                 MessageBox.Show("Producto inválido.");
                 return;
             }
+            if (nudCantidad.Value <= 0)
+            {
+                MessageBox.Show("La cantidad debe ser mayor a cero.");
+                return;
+            }
+
 
             var nuevaVenta = new Venta
             {
                 MetodoPago = cboModoPago.SelectedItem.ToString(),
                 Fecha = DateTime.Now,
                 Detalles = new List<DetalleVenta>
-    {
-        new DetalleVenta
-        {
-            ProductoId = producto.Id,
-            Producto = producto, // Esto es útil para mostrar el nombre
-            Cantidad = (int)nudCantidad.Value
+           {
+             new DetalleVenta
+         {
+                    ProductoId = producto.Id,
+                     Producto = producto, // Esto es útil para mostrar el nombre
+                    Cantidad = (int)nudCantidad.Value
         }
     }
             };
@@ -102,8 +117,12 @@ namespace GestioLocalLab3.Desktop
                 {
                     MessageBox.Show("Venta registrada.");
                     await CargarVentas();
+                    cboProducto.SelectedIndex = 0;
+                    cboModoPago.SelectedIndex = 0;
+                    nudCantidad.Value = 1;
 
-                   
+
+
                 }
                 else
                 {
@@ -116,7 +135,7 @@ namespace GestioLocalLab3.Desktop
             }
         }
 
-       
+
 
         private async Task CargarVentas()
         {
@@ -130,9 +149,33 @@ namespace GestioLocalLab3.Desktop
             {
                 MessageBox.Show("Error al cargar ventas: " + ex.Message);
             }
+            await CargarProductosAsync(dgvProductos);
         }
 
+        private async void btnAgregarProducto_Click(object sender, EventArgs e)
+        {
+            var formProducto = new FormProducto();
+            formProducto.ShowDialog();
 
+            // Recargar productos
+            await CargarProductosAsync(dgvProductos);
+        }
 
+        private async void btnEditarProducto_Click(object sender, EventArgs e)
+        {
+            if (dgvProductos.CurrentRow == null)
+            {
+                MessageBox.Show("Seleccioná un producto para editar.");
+                return;
+            }
+
+            var producto = (Producto)dgvProductos.CurrentRow.DataBoundItem;
+
+            var formProducto = new FormProducto(producto);
+            formProducto.ShowDialog();
+
+            // Al volver, recargar productos
+            await CargarProductosAsync(dgvProductos);
+        }
     }
 }

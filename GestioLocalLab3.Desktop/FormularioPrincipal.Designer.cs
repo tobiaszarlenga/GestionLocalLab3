@@ -29,24 +29,30 @@
         private void InitializeComponent()
         {
             tabControl1 = new TabControl();
-            tabPage1 = new TabPage();
+            tabVenta = new TabPage();
+            dgvVentas = new DataGridView();
             btnRegistrarVenta = new Button();
             nudCantidad = new NumericUpDown();
             cboModoPago = new ComboBox();
             cboProducto = new ComboBox();
-            tabPage2 = new TabPage();
+            tabStock = new TabPage();
+            btnEliminarProducto = new Button();
+            btnEditarProducto = new Button();
+            btnAgregarProducto = new Button();
+            dgvProductos = new DataGridView();
             tabPage3 = new TabPage();
-            dgvVentas = new DataGridView();
             tabControl1.SuspendLayout();
-            tabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)nudCantidad).BeginInit();
+            tabVenta.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvVentas).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)nudCantidad).BeginInit();
+            tabStock.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvProductos).BeginInit();
             SuspendLayout();
             // 
             // tabControl1
             // 
-            tabControl1.Controls.Add(tabPage1);
-            tabControl1.Controls.Add(tabPage2);
+            tabControl1.Controls.Add(tabVenta);
+            tabControl1.Controls.Add(tabStock);
             tabControl1.Controls.Add(tabPage3);
             tabControl1.Location = new Point(0, 24);
             tabControl1.Name = "tabControl1";
@@ -54,20 +60,28 @@
             tabControl1.Size = new Size(804, 414);
             tabControl1.TabIndex = 0;
             // 
-            // tabPage1
+            // tabVenta
             // 
-            tabPage1.Controls.Add(dgvVentas);
-            tabPage1.Controls.Add(btnRegistrarVenta);
-            tabPage1.Controls.Add(nudCantidad);
-            tabPage1.Controls.Add(cboModoPago);
-            tabPage1.Controls.Add(cboProducto);
-            tabPage1.Location = new Point(4, 24);
-            tabPage1.Name = "tabPage1";
-            tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(796, 386);
-            tabPage1.TabIndex = 0;
-            tabPage1.Text = "VENTAS";
-            tabPage1.UseVisualStyleBackColor = true;
+            tabVenta.Controls.Add(dgvVentas);
+            tabVenta.Controls.Add(btnRegistrarVenta);
+            tabVenta.Controls.Add(nudCantidad);
+            tabVenta.Controls.Add(cboModoPago);
+            tabVenta.Controls.Add(cboProducto);
+            tabVenta.Location = new Point(4, 24);
+            tabVenta.Name = "tabVenta";
+            tabVenta.Padding = new Padding(3);
+            tabVenta.Size = new Size(796, 386);
+            tabVenta.TabIndex = 0;
+            tabVenta.Text = "VENTAS";
+            tabVenta.UseVisualStyleBackColor = true;
+            // 
+            // dgvVentas
+            // 
+            dgvVentas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvVentas.Location = new Point(296, 30);
+            dgvVentas.Name = "dgvVentas";
+            dgvVentas.Size = new Size(454, 262);
+            dgvVentas.TabIndex = 4;
             // 
             // btnRegistrarVenta
             // 
@@ -102,15 +116,58 @@
             cboProducto.Size = new Size(121, 23);
             cboProducto.TabIndex = 0;
             // 
-            // tabPage2
+            // tabStock
             // 
-            tabPage2.Location = new Point(4, 24);
-            tabPage2.Name = "tabPage2";
-            tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(796, 386);
-            tabPage2.TabIndex = 1;
-            tabPage2.Text = "STOCK";
-            tabPage2.UseVisualStyleBackColor = true;
+            tabStock.Controls.Add(btnEliminarProducto);
+            tabStock.Controls.Add(btnEditarProducto);
+            tabStock.Controls.Add(btnAgregarProducto);
+            tabStock.Controls.Add(dgvProductos);
+            tabStock.Location = new Point(4, 24);
+            tabStock.Name = "tabStock";
+            tabStock.Padding = new Padding(3);
+            tabStock.Size = new Size(796, 386);
+            tabStock.TabIndex = 1;
+            tabStock.Text = "STOCK";
+            tabStock.UseVisualStyleBackColor = true;
+            // 
+            // btnEliminarProducto
+            // 
+            btnEliminarProducto.Location = new Point(586, 324);
+            btnEliminarProducto.Name = "btnEliminarProducto";
+            btnEliminarProducto.Size = new Size(75, 23);
+            btnEliminarProducto.TabIndex = 3;
+            btnEliminarProducto.Text = "Eliminar";
+            btnEliminarProducto.UseVisualStyleBackColor = true;
+            // 
+            // btnEditarProducto
+            // 
+            btnEditarProducto.Location = new Point(491, 324);
+            btnEditarProducto.Name = "btnEditarProducto";
+            btnEditarProducto.Size = new Size(75, 23);
+            btnEditarProducto.TabIndex = 2;
+            btnEditarProducto.Text = "Editar";
+            btnEditarProducto.UseVisualStyleBackColor = true;
+            btnEditarProducto.Click += btnEditarProducto_Click;
+            // 
+            // btnAgregarProducto
+            // 
+            btnAgregarProducto.Location = new Point(152, 324);
+            btnAgregarProducto.Name = "btnAgregarProducto";
+            btnAgregarProducto.Size = new Size(135, 23);
+            btnAgregarProducto.TabIndex = 1;
+            btnAgregarProducto.Text = "Agregar Producto";
+            btnAgregarProducto.UseVisualStyleBackColor = true;
+            btnAgregarProducto.Click += btnAgregarProducto_Click;
+            // 
+            // dgvProductos
+            // 
+            dgvProductos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvProductos.Location = new Point(152, 25);
+            dgvProductos.Name = "dgvProductos";
+            dgvProductos.ReadOnly = true;
+            dgvProductos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvProductos.Size = new Size(509, 266);
+            dgvProductos.TabIndex = 0;
             // 
             // tabPage3
             // 
@@ -122,14 +179,6 @@
             tabPage3.Text = "REPORTE";
             tabPage3.UseVisualStyleBackColor = true;
             // 
-            // dgvVentas
-            // 
-            dgvVentas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvVentas.Location = new Point(296, 30);
-            dgvVentas.Name = "dgvVentas";
-            dgvVentas.Size = new Size(454, 262);
-            dgvVentas.TabIndex = 4;
-            // 
             // FormularioPrincipal
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -140,22 +189,28 @@
             Text = "FormularioPrincipal";
             Load += FormularioPrincipal_Load;
             tabControl1.ResumeLayout(false);
-            tabPage1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)nudCantidad).EndInit();
+            tabVenta.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvVentas).EndInit();
+            ((System.ComponentModel.ISupportInitialize)nudCantidad).EndInit();
+            tabStock.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dgvProductos).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
         private TabControl tabControl1;
-        private TabPage tabPage1;
-        private TabPage tabPage2;
+        private TabPage tabVenta;
+        private TabPage tabStock;
         private TabPage tabPage3;
         private ComboBox cboProducto;
         private ComboBox cboModoPago;
         private Button btnRegistrarVenta;
         private NumericUpDown nudCantidad;
         private DataGridView dgvVentas;
+        private DataGridView dgvProductos;
+        private Button btnEliminarProducto;
+        private Button btnEditarProducto;
+        private Button btnAgregarProducto;
     }
 }
