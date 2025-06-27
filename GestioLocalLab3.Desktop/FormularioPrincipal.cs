@@ -145,16 +145,23 @@ namespace GestioLocalLab3.Desktop
         {
             try
             {
-                var client = new HttpClient();
-                var ventas = await client.GetFromJsonAsync<List<DetalleVentaDto>>("https://localhost:7096/api/Venta/detalle");
+                using var client = new HttpClient();
+                client.BaseAddress = new Uri("https://localhost:7096/");
+
+                var ventas = await client.GetFromJsonAsync<List<VentaReporteDto>>(
+                    "api/Venta/reporte"
+                );
+
                 dgvVentas.DataSource = ventas;
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error al cargar ventas: " + ex.Message);
             }
+
             await CargarProductosAsync(dgvProductos);
         }
+
 
         private async void btnAgregarProducto_Click(object sender, EventArgs e)
         {
@@ -212,13 +219,12 @@ namespace GestioLocalLab3.Desktop
 
                 if (response.IsSuccessStatusCode)
                 {
-                    MessageBox.Show("Producto eliminado correctamente.");
-                    await CargarProductosAsync(dgvProductos);
-                    await CargarProductosAsync();
+                    MessageBox.Show("Producto eliminado.");
                 }
                 else
                 {
-                    MessageBox.Show("Error al eliminar: " + response.StatusCode);
+                    var error = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show("Error al eliminar producto: " + error);
                 }
             }
             catch (Exception ex)

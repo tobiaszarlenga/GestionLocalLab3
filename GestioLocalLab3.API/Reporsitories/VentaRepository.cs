@@ -33,6 +33,7 @@ namespace GestionLocalLab3.API.Repositories
 
         public void Agregar(Venta venta)
         {
+
             foreach (var detalle in venta.Detalles)
             {
                 var producto = _context.Productos
@@ -47,6 +48,9 @@ namespace GestionLocalLab3.API.Repositories
                 producto.StockActual -= detalle.Cantidad;
 
                 detalle.PrecioUnitario = producto.Precio;
+
+                // 🔥 ESTA LÍNEA arregla el error
+                detalle.Producto = null;
             }
 
             venta.Fecha = DateTime.Now;

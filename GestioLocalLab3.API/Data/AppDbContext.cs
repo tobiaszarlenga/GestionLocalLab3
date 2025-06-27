@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using GestioLocalLab3.API.Models;
 using GestionLocalLab3.API.Data.Configurations;
+using GestioLocalLab3.API.Data.Configurations;
 
 namespace GestionLocalLab3.API.Data
 {
@@ -10,6 +11,7 @@ namespace GestionLocalLab3.API.Data
             : base(options)
         {
         }
+        public DbSet<Usuario> Usuarios { get; set; }
 
         public DbSet<Producto> Productos { get; set; }
         public DbSet<Venta> Ventas { get; set; }
@@ -20,6 +22,7 @@ namespace GestionLocalLab3.API.Data
             modelBuilder.ApplyConfiguration(new ProductoConfiguration());
             modelBuilder.ApplyConfiguration(new VentaConfiguration());
             modelBuilder.ApplyConfiguration(new DetalleVentaConfiguration());
+            modelBuilder.ApplyConfiguration(new UsuarioConfiguration());
         }
     }
 }

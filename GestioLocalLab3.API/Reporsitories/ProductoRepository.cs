@@ -38,6 +38,12 @@ namespace GestionLocalLab3.API.Repositories
 
         public void Eliminar(int id)
         {
+            var tieneDetalles = _context.DetallesVenta
+                .Any(d => d.ProductoID == id);
+
+            if (tieneDetalles)
+                throw new Exception("No se puede eliminar el producto porque tiene ventas registradas.");
+
             var producto = _context.Productos.FirstOrDefault(p => p.Id == id);
             if (producto != null)
             {
@@ -45,5 +51,6 @@ namespace GestionLocalLab3.API.Repositories
                 _context.SaveChanges();
             }
         }
+
     }
 }
