@@ -45,7 +45,8 @@ namespace GestioLocalLab3.API.Controllers
                 NombreProducto = d.Producto?.Nombre ?? "",
                 Cantidad = d.Cantidad,
                 ModoPago = v.MetodoPago,
-                Fecha = v.Fecha
+                Fecha = v.Fecha,
+                PrecioUnitario = d.PrecioUnitario
             }));
             return Ok(resultado);
         }

@@ -6,5 +6,7 @@
         public int Cantidad { get; set; }
         public string? ModoPago { get; set; }
         public DateTime Fecha { get; set; }
+        public decimal PrecioUnitario { get; set; }
+
     }
 }

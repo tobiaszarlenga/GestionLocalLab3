@@ -98,7 +98,8 @@ namespace GestioLocalLab3.Desktop
         {
             ProductoID = producto.Id,
             Producto = producto,
-            Cantidad = (int)nudCantidad.Value
+            Cantidad = (int)nudCantidad.Value,
+            PrecioUnitario = producto.Precio
         }
     }
             };
@@ -232,28 +233,74 @@ namespace GestioLocalLab3.Desktop
             try
             {
                 using var client = new HttpClient();
-                var ventas = await client.GetFromJsonAsync<List<DetalleVentaDto>>("https://localhost:7096/api/Reporte/Diario");
-                dgvReporte.DataSource = ventas;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cargar ventas de hoy: " + ex.Message);
-            }
-        }
+                var ventas = await client.GetFromJsonAsync<List<DetalleVentaDto>>(
+                    "https://localhost:7096/api/Reporte/Diario"
+                );
 
-        private async Task CargarVentasMes()
-        {
-            try
-            {
-                using var client = new HttpClient();
-                var ventas = await client.GetFromJsonAsync<List<DetalleVentaDto>>("https://localhost:7096/api/Reporte/Mensual");
                 dgvReporte.DataSource = ventas;
+
+                // Solo agregar columna si no existe
+                if (!dgvReporte.Columns.Contains("PrecioUnitario"))
+                {
+                    dgvReporte.Columns.Add("PrecioUnitario", "Precio Unitario");
+                    dgvReporte.Columns["PrecioUnitario"].DataPropertyName = "PrecioUnitario";
+                }
+
+                decimal total = 0;
+
+                foreach (DataGridViewRow row in dgvReporte.Rows)
+                {
+                    if (row.DataBoundItem is DetalleVentaDto detalle)
+                    {
+                        total += detalle.PrecioUnitario * detalle.Cantidad;
+                    }
+                }
+
+                lblTotalVentas.Text = $"Total del dia: ${total:N2}";
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error al cargar ventas del mes: " + ex.Message);
             }
         }
+
+
+        private async Task CargarVentasMes()
+        {
+            try
+            {
+                using var client = new HttpClient();
+                var ventas = await client.GetFromJsonAsync<List<DetalleVentaDto>>(
+                    "https://localhost:7096/api/Reporte/Mensual"
+                );
+
+                dgvReporte.DataSource = ventas;
+
+                // Solo agregar columna si no existe
+                if (!dgvReporte.Columns.Contains("PrecioUnitario"))
+                {
+                    dgvReporte.Columns.Add("PrecioUnitario", "Precio Unitario");
+                    dgvReporte.Columns["PrecioUnitario"].DataPropertyName = "PrecioUnitario";
+                }
+
+                decimal total = 0;
+
+                foreach (DataGridViewRow row in dgvReporte.Rows)
+                {
+                    if (row.DataBoundItem is DetalleVentaDto detalle)
+                    {
+                        total += detalle.PrecioUnitario * detalle.Cantidad;
+                    }
+                }
+
+                lblTotalVentas.Text = $"Total del mes: ${total:N2}";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar ventas del mes: " + ex.Message);
+            }
+        }
+
 
         private async void btnVentasDia_Click(object sender, EventArgs e)
         {
@@ -263,6 +310,11 @@ namespace GestioLocalLab3.Desktop
         private async void btnVentasMes_Click(object sender, EventArgs e)
         {
             await CargarVentasHoy();
+        }
+
+        private void btnEditarVenta_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
