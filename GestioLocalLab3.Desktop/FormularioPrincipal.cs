@@ -20,7 +20,7 @@ namespace GestioLocalLab3.Desktop
             InitializeComponent();
         }
 
-    
+
 
 
 
@@ -59,6 +59,73 @@ namespace GestioLocalLab3.Desktop
             cboModoPago.SelectedIndex = 0;
         }
 
+        private async void btnRegistrarVenta_Click(object sender, EventArgs e)
+        {
+            if (cboProducto.SelectedItem == null)
+            {
+                MessageBox.Show("Seleccioná un producto.");
+                return;
+            }
+
+          
+            var producto = cboProducto.SelectedItem as Producto;
+            if (producto == null)
+            {
+                MessageBox.Show("Producto inválido.");
+                return;
+            }
+
+            var nuevaVenta = new Venta
+            {
+                ProductoId = producto.Id,
+                Cantidad = (int)nudCantidad.Value,
+                ModoPago = cboModoPago.SelectedItem.ToString(),
+                Fecha = DateTime.Now
+            };
+
+            try
+            {
+                using var client = new HttpClient();
+                client.BaseAddress = new Uri("https://localhost:7096/");
+
+                var response = await client.PostAsJsonAsync("api/Venta", nuevaVenta);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Venta registrada.");
+
+                    await CargarVentasAsync();
+                }
+                else
+                {
+                    MessageBox.Show("Error al registrar venta: " + response.StatusCode);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
+        private async Task CargarVentasAsync()
+        {
+            try
+            {
+                using var client = new HttpClient();
+                client.BaseAddress = new Uri("https://localhost:7096/");
+
+                var ventas = await client.GetFromJsonAsync<List<Venta>>("api/Venta");
+
+                if (ventas != null)
+                {
+                    dgvVentas.DataSource = ventas;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar ventas: " + ex.Message);
+            }
+        }
 
     }
 }

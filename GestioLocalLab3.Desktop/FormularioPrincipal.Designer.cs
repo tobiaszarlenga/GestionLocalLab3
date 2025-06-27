@@ -30,15 +30,17 @@
         {
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
+            btnRegistrarVenta = new Button();
+            nudCantidad = new NumericUpDown();
             cboModoPago = new ComboBox();
             cboProducto = new ComboBox();
             tabPage2 = new TabPage();
             tabPage3 = new TabPage();
-            nudCantidad = new NumericUpDown();
-            btnRegistrarVenta = new Button();
+            dgvVentas = new DataGridView();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudCantidad).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvVentas).BeginInit();
             SuspendLayout();
             // 
             // tabControl1
@@ -54,6 +56,7 @@
             // 
             // tabPage1
             // 
+            tabPage1.Controls.Add(dgvVentas);
             tabPage1.Controls.Add(btnRegistrarVenta);
             tabPage1.Controls.Add(nudCantidad);
             tabPage1.Controls.Add(cboModoPago);
@@ -65,6 +68,23 @@
             tabPage1.TabIndex = 0;
             tabPage1.Text = "VENTAS";
             tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // btnRegistrarVenta
+            // 
+            btnRegistrarVenta.Location = new Point(125, 252);
+            btnRegistrarVenta.Name = "btnRegistrarVenta";
+            btnRegistrarVenta.Size = new Size(75, 23);
+            btnRegistrarVenta.TabIndex = 3;
+            btnRegistrarVenta.Text = "Registrar Venta";
+            btnRegistrarVenta.UseVisualStyleBackColor = true;
+            btnRegistrarVenta.Click += btnRegistrarVenta_Click;
+            // 
+            // nudCantidad
+            // 
+            nudCantidad.Location = new Point(125, 197);
+            nudCantidad.Name = "nudCantidad";
+            nudCantidad.Size = new Size(120, 23);
+            nudCantidad.TabIndex = 2;
             // 
             // cboModoPago
             // 
@@ -102,21 +122,13 @@
             tabPage3.Text = "REPORTE";
             tabPage3.UseVisualStyleBackColor = true;
             // 
-            // nudCantidad
+            // dgvVentas
             // 
-            nudCantidad.Location = new Point(125, 197);
-            nudCantidad.Name = "nudCantidad";
-            nudCantidad.Size = new Size(120, 23);
-            nudCantidad.TabIndex = 2;
-            // 
-            // btnRegistrarVenta
-            // 
-            btnRegistrarVenta.Location = new Point(125, 252);
-            btnRegistrarVenta.Name = "btnRegistrarVenta";
-            btnRegistrarVenta.Size = new Size(75, 23);
-            btnRegistrarVenta.TabIndex = 3;
-            btnRegistrarVenta.Text = "Registrar Venta";
-            btnRegistrarVenta.UseVisualStyleBackColor = true;
+            dgvVentas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvVentas.Location = new Point(296, 30);
+            dgvVentas.Name = "dgvVentas";
+            dgvVentas.Size = new Size(454, 262);
+            dgvVentas.TabIndex = 4;
             // 
             // FormularioPrincipal
             // 
@@ -130,6 +142,7 @@
             tabControl1.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)nudCantidad).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvVentas).EndInit();
             ResumeLayout(false);
         }
 
@@ -143,5 +156,6 @@
         private ComboBox cboModoPago;
         private Button btnRegistrarVenta;
         private NumericUpDown nudCantidad;
+        private DataGridView dgvVentas;
     }
 }
