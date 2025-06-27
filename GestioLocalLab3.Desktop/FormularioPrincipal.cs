@@ -177,5 +177,47 @@ namespace GestioLocalLab3.Desktop
             // Al volver, recargar productos
             await CargarProductosAsync(dgvProductos);
         }
+
+        private async void btnEliminarProducto_Click(object sender, EventArgs e)
+        {
+            if (dgvProductos.CurrentRow == null)
+            {
+                MessageBox.Show("Seleccioná un producto para eliminar.");
+                return;
+            }
+
+            var producto = (Producto)dgvProductos.CurrentRow.DataBoundItem;
+
+            var confirmar = MessageBox.Show(
+                $"¿Seguro que querés eliminar el producto '{producto.Nombre}'?",
+                "Confirmar eliminación",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
+
+            if (confirmar != DialogResult.Yes)
+                return;
+
+            try
+            {
+                using var client = new HttpClient();
+                client.BaseAddress = new Uri("https://localhost:7096/");
+
+                var response = await client.DeleteAsync($"api/Producto/{producto.Id}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Producto eliminado correctamente.");
+                    await CargarProductosAsync(dgvProductos);
+                }
+                else
+                {
+                    MessageBox.Show("Error al eliminar: " + response.StatusCode);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
     }
 }
