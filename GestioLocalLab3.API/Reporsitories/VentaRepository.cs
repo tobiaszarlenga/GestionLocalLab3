@@ -33,8 +33,7 @@ namespace GestioLocalLab3.API.Repositories
                 if (producto == null)
                     throw new Exception($"Producto con ID {detalle.ProductoID} no existe.");
 
-                if (producto.StockActual < detalle.Cantidad)
-                    throw new Exception($"Stock insuficiente para el producto: {producto.Nombre}");
+             
 
                 producto.StockActual -= detalle.Cantidad;
             }

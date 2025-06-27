@@ -88,22 +88,25 @@ namespace GestioLocalLab3.Desktop
                 MessageBox.Show("La cantidad debe ser mayor a cero.");
                 return;
             }
-
-
             var nuevaVenta = new Venta
             {
                 MetodoPago = cboModoPago.SelectedItem.ToString(),
                 Fecha = DateTime.Now,
                 Detalles = new List<DetalleVenta>
-           {
-             new DetalleVenta
-         {
-                    ProductoId = producto.Id,
-                     Producto = producto, // Esto es útil para mostrar el nombre
-                    Cantidad = (int)nudCantidad.Value
+    {
+        new DetalleVenta
+        {
+            ProductoID = producto.Id,
+            Producto = producto,
+            Cantidad = (int)nudCantidad.Value,
+            PrecioUnitario = producto.Precio
         }
     }
             };
+
+
+
+
 
 
             try
@@ -126,7 +129,8 @@ namespace GestioLocalLab3.Desktop
                 }
                 else
                 {
-                    MessageBox.Show("Error al registrar venta: " + response.StatusCode);
+                    var error = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show("Error al registrar venta: " + error);
                 }
             }
             catch (Exception ex)
@@ -222,5 +226,164 @@ namespace GestioLocalLab3.Desktop
                 MessageBox.Show("Error: " + ex.Message);
             }
         }
+
+
+        private async Task CargarVentasHoy()
+        {
+            try
+            {
+                using var client = new HttpClient();
+                var ventas = await client.GetFromJsonAsync<List<DetalleVentaDto>>(
+                    "https://localhost:7096/api/Reporte/Diario"
+                );
+
+                dgvReporte.DataSource = ventas;
+                dgvReporte.Columns["VentaId"].Visible = false;
+
+
+                // Solo agregar columna si no existe
+                if (!dgvReporte.Columns.Contains("PrecioUnitario"))
+                {
+                    dgvReporte.Columns.Add("PrecioUnitario", "Precio Unitario");
+                    dgvReporte.Columns["PrecioUnitario"].DataPropertyName = "PrecioUnitario";
+                }
+
+                decimal total = 0;
+
+                foreach (DataGridViewRow row in dgvReporte.Rows)
+                {
+                    if (row.DataBoundItem is DetalleVentaDto detalle)
+                    {
+                        total += detalle.PrecioUnitario * detalle.Cantidad;
+                    }
+                }
+
+                lblTotalVentas.Text = $"Total del dia: ${total:N2}";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar ventas del mes: " + ex.Message);
+            }
+        }
+
+
+        private async Task CargarVentasMes()
+        {
+            try
+            {
+                using var client = new HttpClient();
+                var ventas = await client.GetFromJsonAsync<List<DetalleVentaDto>>(
+                    "https://localhost:7096/api/Reporte/Mensual"
+                );
+
+                dgvReporte.DataSource = ventas;
+
+                // Solo agregar columna si no existe
+                if (!dgvReporte.Columns.Contains("PrecioUnitario"))
+                {
+                    dgvReporte.Columns.Add("PrecioUnitario", "Precio Unitario");
+                    dgvReporte.Columns["PrecioUnitario"].DataPropertyName = "PrecioUnitario";
+                }
+
+                decimal total = 0;
+
+                foreach (DataGridViewRow row in dgvReporte.Rows)
+                {
+                    if (row.DataBoundItem is DetalleVentaDto detalle)
+                    {
+                        total += detalle.PrecioUnitario * detalle.Cantidad;
+                    }
+                }
+
+                lblTotalVentas.Text = $"Total del mes: ${total:N2}";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar ventas del mes: " + ex.Message);
+            }
+        }
+
+
+        private async void btnVentasDia_Click(object sender, EventArgs e)
+        {
+            await CargarVentasHoy();
+        }
+
+        private async void btnVentasMes_Click(object sender, EventArgs e)
+        {
+            await CargarVentasMes();
+        }
+
+        private async void btnEditarVenta_Click(object sender, EventArgs e)
+        {
+            if (dgvReporte.CurrentRow == null)
+            {
+                MessageBox.Show("Seleccioná una venta para editar.");
+                return;
+            }
+
+            var detalle = (DetalleVentaDto)dgvReporte.CurrentRow.DataBoundItem;
+
+            using var formEditar = new FormEditarVenta(detalle);
+            var result = formEditar.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                using var client = new HttpClient();
+                client.BaseAddress = new Uri("https://localhost:7096/");
+
+                var response = await client.PutAsJsonAsync($"api/Venta/{detalle.VentaId}", detalle);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Venta actualizada.");
+                    await CargarVentasMes(); // o el método que tengas
+                }
+                else
+                {
+                    var error = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show("Error al editar venta: " + error);
+                }
+            }
+        }
+
+        private async void btnEliminarVenta_Click(object sender, EventArgs e)
+        {
+            if (dgvReporte.CurrentRow == null)
+            {
+                MessageBox.Show("Seleccioná una venta para eliminar.");
+                return;
+            }
+
+            var detalle = (DetalleVentaDto)dgvReporte.CurrentRow.DataBoundItem;
+            int idVenta = detalle.VentaId;
+
+            var confirm = MessageBox.Show(
+                $"¿Seguro que querés eliminar la venta {idVenta}?",
+                "Confirmar eliminación",
+                MessageBoxButtons.YesNo
+            );
+
+            if (confirm != DialogResult.Yes)
+                return;
+
+            using var client = new HttpClient();
+            client.BaseAddress = new Uri("https://localhost:7096/");
+
+            var response = await client.DeleteAsync($"api/Venta/{idVenta}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                MessageBox.Show("Venta eliminada.");
+                await CargarVentasMes();  // o el método que corresponda para refrescar
+            }
+            else
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                MessageBox.Show($"Error al eliminar venta: {error}");
+            }
+        }
     }
+
 }
+
