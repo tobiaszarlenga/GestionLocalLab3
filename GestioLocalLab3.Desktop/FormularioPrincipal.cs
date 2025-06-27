@@ -77,11 +77,19 @@ namespace GestioLocalLab3.Desktop
 
             var nuevaVenta = new Venta
             {
-                ProductoId = producto.Id,
-                Cantidad = (int)nudCantidad.Value,
-                ModoPago = cboModoPago.SelectedItem.ToString(),
-                Fecha = DateTime.Now
+                MetodoPago = cboModoPago.SelectedItem.ToString(),
+                Fecha = DateTime.Now,
+                Detalles = new List<DetalleVenta>
+    {
+        new DetalleVenta
+        {
+            ProductoId = producto.Id,
+            Producto = producto, // Esto es útil para mostrar el nombre
+            Cantidad = (int)nudCantidad.Value
+        }
+    }
             };
+
 
             try
             {
@@ -93,8 +101,9 @@ namespace GestioLocalLab3.Desktop
                 if (response.IsSuccessStatusCode)
                 {
                     MessageBox.Show("Venta registrada.");
+                    await CargarVentas();
 
-                    await CargarVentasAsync();
+                   
                 }
                 else
                 {
@@ -107,25 +116,23 @@ namespace GestioLocalLab3.Desktop
             }
         }
 
-        private async Task CargarVentasAsync()
+       
+
+        private async Task CargarVentas()
         {
             try
             {
-                using var client = new HttpClient();
-                client.BaseAddress = new Uri("https://localhost:7096/");
-
-                var ventas = await client.GetFromJsonAsync<List<Venta>>("api/Venta");
-
-                if (ventas != null)
-                {
-                    dgvVentas.DataSource = ventas;
-                }
+                var client = new HttpClient();
+                var ventas = await client.GetFromJsonAsync<List<DetalleVentaDto>>("https://localhost:7096/api/Venta/detalle");
+                dgvVentas.DataSource = ventas;
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error al cargar ventas: " + ex.Message);
             }
         }
+
+
 
     }
 }
