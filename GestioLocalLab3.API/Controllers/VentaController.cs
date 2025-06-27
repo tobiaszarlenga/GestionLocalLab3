@@ -1,5 +1,6 @@
 ﻿using GestioLocalLab3.API.Interface;
 using GestioLocalLab3.API.Models;
+using GestioLocalLab3.API.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GestioLocalLab3.API.Controllers
@@ -29,6 +30,21 @@ namespace GestioLocalLab3.API.Controllers
                 return Ok(venta);
 
             }
+        [HttpGet("detalle")]
+        public ActionResult<IEnumerable<DetalleVentaDto>> GetDetalleVentas()
+        {
+            var ventas = _ventaRepo.ObtenerTodas();
+            var resultado = ventas.SelectMany(v => v.Detalles.Select(d => new DetalleVentaDto
+            {
+                NombreProducto = d.Producto?.Nombre ?? "",
+                Cantidad = d.Cantidad,
+                ModoPago = v.MetodoPago,
+                Fecha = v.Fecha
+            }));
+            return Ok(resultado);
+        }
+
+
         [HttpPost]
         public IActionResult Post([FromBody] Venta venta)
         {

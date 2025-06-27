@@ -8,9 +8,10 @@ namespace GestioLocalLab3.Desktop.Models
 {
     public class Venta
     {
+        public int Id { get; set; }
         public DateTime Fecha { get; set; }
-        public string MetodoPago { get; set; } = string.Empty;
-        public decimal MontoTotal { get; set; }
-        public List<DetalleVenta> Detalles { get; set; } = new();
+        public string MetodoPago { get; set; }   
+        public List<DetalleVenta> Detalles { get; set; } = new List<DetalleVenta>();
     }
+
 }
