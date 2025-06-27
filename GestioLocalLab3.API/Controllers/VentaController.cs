@@ -3,20 +3,26 @@ using GestioLocalLab3.API.Models;
 using GestioLocalLab3.API.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace GestioLocalLab3.API.Controllers
 {
         [ApiController]
         [Route("api/[controller]")]
         public class VentaController : ControllerBase
         {
-            private readonly IVentaRepository _ventaRepo;
+        private readonly IVentaRepository _ventaRepo;
+        private readonly IProductoRepository _productoRepo;
 
-            public VentaController(IVentaRepository ventaRepo)
-            {
-                _ventaRepo = ventaRepo;
-            }
+        public VentaController(
+            IVentaRepository ventaRepo,
+            IProductoRepository productoRepo)
+        {
+            _ventaRepo = ventaRepo;
+            _productoRepo = productoRepo;
+        }
 
-            [HttpGet]
+
+        [HttpGet]
             public IActionResult Get()
             {
                 return Ok(_ventaRepo.ObtenerTodas());
@@ -48,9 +54,23 @@ namespace GestioLocalLab3.API.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] Venta venta)
         {
+            foreach (var detalle in venta.Detalles)
+            {
+                var producto = _productoRepo.ObtenerPorId(detalle.ProductoID);
+
+                if (producto == null)
+                    return BadRequest($"Producto con Id {detalle.ProductoID} no existe.");
+
+                if (producto.StockActual < detalle.Cantidad)
+                    return BadRequest($"Stock insuficiente para el producto {producto.Nombre}. "
+                                     + $"Stock disponible: {producto.StockActual}.");
+            }
+
             _ventaRepo.Agregar(venta);
+
             return CreatedAtAction(nameof(Get), new { id = venta.Id }, venta);
         }
+
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] Venta venta)
         {

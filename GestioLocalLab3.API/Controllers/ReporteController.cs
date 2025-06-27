@@ -1,5 +1,5 @@
 ﻿using GestioLocalLab3.API.Interface;
-
+using GestioLocalLab3.API.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GestionLocalLab3.API.Controllers
@@ -15,31 +15,43 @@ namespace GestionLocalLab3.API.Controllers
             _ventaRepo = ventaRepo;
         }
 
-        
-        [HttpGet("Mensual")]
-        public IActionResult GetVentasDelMes(int mes, int dia)
+
+        [HttpGet("Diario")]
+        public ActionResult<IEnumerable<DetalleVentaDto>> GetVentasDelDia()
         {
-            var ventas = _ventaRepo.ObtenerTodas()
-                .Where(v => v.Fecha.Month == mes && v.Fecha.Day == dia)
+            var ventasHoy = _ventaRepo.ObtenerTodas()
+                .Where(v => v.Fecha.Date == DateTime.Now.Date)
+                .SelectMany(v => v.Detalles.Select(d => new DetalleVentaDto
+                {
+                    NombreProducto = d.Producto?.Nombre ?? "",
+                    Cantidad = d.Cantidad,
+                    ModoPago = v.MetodoPago,
+                    Fecha = v.Fecha
+                }))
                 .ToList();
 
-            var totalEfectivo = ventas
-                .Where(v => v.MetodoPago.ToLower() == "efectivo")
-                .Sum(v => v.MontoTotal);
-
-            var totalTransferencia = ventas
-                .Where(v => v.MetodoPago.ToLower() == "transferencia")
-                .Sum(v => v.MontoTotal);
-
-            var resumen = new
-            {
-                CantidadVentas = ventas.Count,
-                TotalGeneral = ventas.Sum(v => v.MontoTotal),
-                TotalEfectivo = totalEfectivo,
-                TotalTransferencia = totalTransferencia
-            };
-
-            return Ok(resumen);
+            return Ok(ventasHoy);
         }
+
+        [HttpGet("Mensual")]
+        public ActionResult<IEnumerable<DetalleVentaDto>> GetVentasDelMes()
+        {
+            var mesActual = DateTime.Now.Month;
+
+            var ventasMes = _ventaRepo.ObtenerTodas()
+                .Where(v => v.Fecha.Month == mesActual)
+                .SelectMany(v => v.Detalles.Select(d => new DetalleVentaDto
+                {
+                    NombreProducto = d.Producto?.Nombre ?? "",
+                    Cantidad = d.Cantidad,
+                    ModoPago = v.MetodoPago,
+                    Fecha = v.Fecha
+                }))
+                .ToList();
+
+            return Ok(ventasMes);
+        }
+
+
     }
 }

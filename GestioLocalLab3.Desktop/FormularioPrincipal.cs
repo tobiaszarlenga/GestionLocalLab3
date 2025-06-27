@@ -88,22 +88,24 @@ namespace GestioLocalLab3.Desktop
                 MessageBox.Show("La cantidad debe ser mayor a cero.");
                 return;
             }
-
-
             var nuevaVenta = new Venta
             {
                 MetodoPago = cboModoPago.SelectedItem.ToString(),
                 Fecha = DateTime.Now,
                 Detalles = new List<DetalleVenta>
-           {
-             new DetalleVenta
-         {
-                    ProductoId = producto.Id,
-                     Producto = producto, // Esto es útil para mostrar el nombre
-                    Cantidad = (int)nudCantidad.Value
+    {
+        new DetalleVenta
+        {
+            ProductoID = producto.Id,
+            Producto = producto,
+            Cantidad = (int)nudCantidad.Value
         }
     }
             };
+
+
+
+
 
 
             try
@@ -126,7 +128,8 @@ namespace GestioLocalLab3.Desktop
                 }
                 else
                 {
-                    MessageBox.Show("Error al registrar venta: " + response.StatusCode);
+                    var error = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show("Error al registrar venta: " + error);
                 }
             }
             catch (Exception ex)
@@ -221,6 +224,45 @@ namespace GestioLocalLab3.Desktop
             {
                 MessageBox.Show("Error: " + ex.Message);
             }
+        }
+
+
+        private async Task CargarVentasHoy()
+        {
+            try
+            {
+                using var client = new HttpClient();
+                var ventas = await client.GetFromJsonAsync<List<DetalleVentaDto>>("https://localhost:7096/api/Reporte/Diario");
+                dgvReporte.DataSource = ventas;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar ventas de hoy: " + ex.Message);
+            }
+        }
+
+        private async Task CargarVentasMes()
+        {
+            try
+            {
+                using var client = new HttpClient();
+                var ventas = await client.GetFromJsonAsync<List<DetalleVentaDto>>("https://localhost:7096/api/Reporte/Mensual");
+                dgvReporte.DataSource = ventas;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar ventas del mes: " + ex.Message);
+            }
+        }
+
+        private async void btnVentasDia_Click(object sender, EventArgs e)
+        {
+            await CargarVentasMes();
+        }
+
+        private async void btnVentasMes_Click(object sender, EventArgs e)
+        {
+            await CargarVentasHoy();
         }
     }
 }

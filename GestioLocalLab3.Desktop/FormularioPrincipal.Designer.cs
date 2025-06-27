@@ -41,12 +41,19 @@
             btnAgregarProducto = new Button();
             dgvProductos = new DataGridView();
             tabPage3 = new TabPage();
+            btnEditarVenta = new Button();
+            btnEliminarVenta = new Button();
+            btnVentasMes = new Button();
+            btnVentasDia = new Button();
+            dgvReporte = new DataGridView();
             tabControl1.SuspendLayout();
             tabVenta.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvVentas).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudCantidad).BeginInit();
             tabStock.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvProductos).BeginInit();
+            tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvReporte).BeginInit();
             SuspendLayout();
             // 
             // tabControl1
@@ -163,15 +170,20 @@
             // dgvProductos
             // 
             dgvProductos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvProductos.Location = new Point(152, 25);
+            dgvProductos.Location = new Point(130, 25);
             dgvProductos.Name = "dgvProductos";
             dgvProductos.ReadOnly = true;
             dgvProductos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvProductos.Size = new Size(509, 266);
+            dgvProductos.Size = new Size(549, 266);
             dgvProductos.TabIndex = 0;
             // 
             // tabPage3
             // 
+            tabPage3.Controls.Add(btnEditarVenta);
+            tabPage3.Controls.Add(btnEliminarVenta);
+            tabPage3.Controls.Add(btnVentasMes);
+            tabPage3.Controls.Add(btnVentasDia);
+            tabPage3.Controls.Add(dgvReporte);
             tabPage3.Location = new Point(4, 24);
             tabPage3.Name = "tabPage3";
             tabPage3.Padding = new Padding(3);
@@ -179,6 +191,52 @@
             tabPage3.TabIndex = 2;
             tabPage3.Text = "REPORTE";
             tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // btnEditarVenta
+            // 
+            btnEditarVenta.Location = new Point(700, 118);
+            btnEditarVenta.Name = "btnEditarVenta";
+            btnEditarVenta.Size = new Size(75, 23);
+            btnEditarVenta.TabIndex = 4;
+            btnEditarVenta.Text = "Editar";
+            btnEditarVenta.UseVisualStyleBackColor = true;
+            // 
+            // btnEliminarVenta
+            // 
+            btnEliminarVenta.Location = new Point(700, 205);
+            btnEliminarVenta.Name = "btnEliminarVenta";
+            btnEliminarVenta.Size = new Size(75, 23);
+            btnEliminarVenta.TabIndex = 3;
+            btnEliminarVenta.Text = "Eliminar";
+            btnEliminarVenta.UseVisualStyleBackColor = true;
+            // 
+            // btnVentasMes
+            // 
+            btnVentasMes.Location = new Point(402, 297);
+            btnVentasMes.Name = "btnVentasMes";
+            btnVentasMes.Size = new Size(75, 23);
+            btnVentasMes.TabIndex = 2;
+            btnVentasMes.Text = "Ventas Mes";
+            btnVentasMes.UseVisualStyleBackColor = true;
+            btnVentasMes.Click += btnVentasMes_Click;
+            // 
+            // btnVentasDia
+            // 
+            btnVentasDia.Location = new Point(120, 297);
+            btnVentasDia.Name = "btnVentasDia";
+            btnVentasDia.Size = new Size(75, 23);
+            btnVentasDia.TabIndex = 1;
+            btnVentasDia.Text = "Ventas Hoy";
+            btnVentasDia.UseVisualStyleBackColor = true;
+            btnVentasDia.Click += btnVentasDia_Click;
+            // 
+            // dgvReporte
+            // 
+            dgvReporte.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvReporte.Location = new Point(108, 50);
+            dgvReporte.Name = "dgvReporte";
+            dgvReporte.Size = new Size(560, 219);
+            dgvReporte.TabIndex = 0;
             // 
             // FormularioPrincipal
             // 
@@ -195,6 +253,8 @@
             ((System.ComponentModel.ISupportInitialize)nudCantidad).EndInit();
             tabStock.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvProductos).EndInit();
+            tabPage3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dgvReporte).EndInit();
             ResumeLayout(false);
         }
 
@@ -213,5 +273,10 @@
         private Button btnEliminarProducto;
         private Button btnEditarProducto;
         private Button btnAgregarProducto;
+        private Button btnEditarVenta;
+        private Button btnEliminarVenta;
+        private Button btnVentasMes;
+        private Button btnVentasDia;
+        private DataGridView dgvReporte;
     }
 }
