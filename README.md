@@ -158,6 +158,11 @@ PUT /api/Venta/{id}
 
 DELETE /api/Venta/{id}
 
+DIAGRAMA DE ARQUITECTURA
+https://drive.google.com/file/d/1Ja22Mknk2pQev6FdVeSXNJkEsvFdh7fq/view?usp=sharing
+MANUAL DE USUARIO
+https://docs.google.com/presentation/d/12OB78s81QS_XYI8BXDNF1CoEWIYeFhRz/edit?usp=sharing&ouid=101517266477648166811&rtpof=true&sd=true
+
 👨‍💻 Autor
 Tobias Zarlenga
 Aitana Molina
